@@ -1,0 +1,2987 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mimbar Digital Gold Pro v3.0 — Naskah Khutbah, Artikel & Materi Islami, serta Doa (Aswaja Madzhab Syafi'i)</title>
+<meta name="description" content="Platform Khutbah Jumat, Hari Raya, Artikel Islami, Materi Fiqih & Aqidah Aswaja, serta Kumpulan Doa Digital dengan 3D Realistic Earth & Interactive Screensaver.">
+
+<!-- CSS Frameworks & Fonts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+
+<!-- 3D Three.js & OrbitControls -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<style>
+:root{
+  --gold:#ffd700;
+  --gold-light:#fff08a;
+  --gold-dark:#b8860b;
+  --gold-soft:rgba(255,215,0,.12);
+  --bg:#080b11;
+  --panel:rgba(18,22,30,0.85);
+  --panel2:rgba(24,30,42,0.92);
+  --border:rgba(255,215,0,0.22);
+  --border-cyan:rgba(34,211,238,0.45);
+  --txt:#f1f5f9;
+  --mut:#94a3b8;
+  --grn:#10b981;
+  --emerald:#34d399;
+  --cyan:#22d3ee;
+  --blu:#38bdf8;
+  --pur:#c084fc;
+  --red:#f87171;
+  --amb:#fbbf24;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;position:relative}
+
+/* Realistic 3D Earth Canvas in Background */
+#earth-3d-bg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:0.28;
+  transition:opacity .6s ease-in-out;
+}
+
+.mosque-font{font-family:'Cinzel',serif}
+.arab{font-family:'Amiri',serif;direction:rtl;line-height:2.2}
+.font-mono-tech{font-family:'JetBrains Mono',monospace}
+
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:rgba(8,11,17,0.8)}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* GLOW ANIMATIONS */
+@keyframes gold-glow {
+  0%, 100% { text-shadow: 0 0 10px rgba(234, 179, 8, 0.4); filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.2)); }
+  50% { text-shadow: 0 0 20px rgba(234, 179, 8, 0.9), 0 0 30px rgba(234, 179, 8, 0.5); filter: drop-shadow(0 0 15px rgba(234, 179, 8, 0.7)); }
+}
+.animate-gold-glow { animation: gold-glow 2.5s infinite ease-in-out; }
+
+@keyframes gold-glow-box {
+  0%, 100% { box-shadow: 0 0 15px rgba(234, 179, 8, 0.25); border-color: rgba(234, 179, 8, 0.45); }
+  50% { box-shadow: 0 0 28px rgba(234, 179, 8, 0.65); border-color: rgba(234, 179, 8, 0.85); }
+}
+.animate-gold-glow-box { animation: gold-glow-box 3s infinite ease-in-out; }
+
+@keyframes pulse-cyan {
+  0%, 100% { box-shadow: 0 0 15px rgba(34,211,238,0.35); border-color: rgba(34,211,238,0.6); }
+  50% { box-shadow: 0 0 25px rgba(34,211,238,0.7), 0 0 35px rgba(16,185,129,0.3); border-color: rgba(52,211,153,0.9); }
+}
+.animate-pulse-cyan { animation: pulse-cyan 3.2s infinite ease-in-out; }
+
+/* 3D LOADER ORBIT RINGS */
+.orbit-container {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  width: 110px;
+  height: 110px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+.orbit-ring-1, .orbit-ring-2, .orbit-ring-3 {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transform-style: preserve-3d;
+}
+.orbit-ring-1 {
+  inset: -22px;
+  border-top-color: #06b6d4;
+  border-bottom-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+  animation: spin3D1 3s linear infinite;
+}
+.orbit-ring-2 {
+  inset: -12px;
+  border-left-color: #10b981;
+  border-right-color: #eab308;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  animation: spin3D2 4s linear infinite;
+}
+.orbit-ring-3 {
+  inset: -32px;
+  border-top-color: #c084fc;
+  border-bottom-color: transparent;
+  animation: spin3D3 5.5s linear infinite;
+}
+@keyframes spin3D1 {
+  0% { transform: rotateX(65deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(65deg) rotateY(360deg) rotateZ(360deg); }
+}
+@keyframes spin3D2 {
+  0% { transform: rotateX(45deg) rotateY(45deg) rotateZ(0deg); }
+  100% { transform: rotateX(45deg) rotateY(45deg) rotateZ(-360deg); }
+}
+@keyframes spin3D3 {
+  0% { transform: rotateX(75deg) rotateY(-45deg) rotateZ(0deg); }
+  100% { transform: rotateX(75deg) rotateY(-45deg) rotateZ(360deg); }
+}
+.super-glow {
+  filter: drop-shadow(0 0 14px rgba(234, 179, 8, 0.8)) drop-shadow(0 0 28px rgba(234, 179, 8, 0.5));
+}
+
+/* LOADING SCREEN */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity .8s ease;
+  padding: 20px;
+}
+.loader-card-clock {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(15,23,42,0.75);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid var(--border-cyan);
+  border-radius: 18px;
+  padding: 12px 28px;
+  box-shadow: 0 0 30px rgba(6,182,212,0.25);
+  animation: pulse-cyan 3s infinite ease-in-out;
+}
+.loader-date {
+  color: #34d399;
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+.loader-time {
+  font-size: clamp(2rem, 5.5vw, 3.2rem);
+  font-weight: 900;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #22d3ee, #34d399, #c084fc, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgba(34,211,238,0.7));
+  margin-top: 2px;
+}
+.loader-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.3rem, 3.8vw, 2.1rem);
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+.loader-sub {
+  color: #94a3b8;
+  font-size: 12px;
+  text-align: center;
+  max-width: 520px;
+  line-height: 1.6;
+}
+.loader-progress-wrap {
+  width: 260px;
+  height: 5px;
+  background: #1e293b;
+  border-radius: 99px;
+  margin-top: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 14px rgba(34,211,238,0.3);
+}
+.loader-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #06b6d4, #10b981, #ffd700);
+  transition: width .4s ease;
+}
+
+/* HEADER */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: linear-gradient(180deg, rgba(8,11,17,0.96), rgba(8,11,17,0.88));
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(184,134,11,0.5);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.logo{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo .ic{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--gold-dark);
+  background: linear-gradient(135deg, rgba(255,215,0,.22), rgba(184,134,11,.14));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 20px;
+  box-shadow: 0 0 20px rgba(255,215,0,.28);
+  flex: none;
+}
+.logo h1{font-family:'Cinzel',serif;color:var(--gold);font-size:clamp(1rem,2.5vw,1.3rem);line-height:1.2;font-weight:700}
+.logo small{display:block;font-size:9.5px;color:var(--mut);letter-spacing:1.5px;font-family:'Poppins'}
+
+/* Center Live Day & Time with striking colors */
+.header-clock-box {
+  background: rgba(4, 7, 13, 0.88);
+  border: 1.5px solid var(--cyan);
+  padding: 5px 18px;
+  border-radius: 99px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  box-shadow: 0 0 16px rgba(34,211,238,0.4);
+  animation: pulse-cyan 3.5s infinite ease-in-out;
+}
+.header-date {
+  color: var(--emerald);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+.header-time {
+  color: var(--cyan);
+  font-weight: 900;
+  font-size: 1.45rem;
+  letter-spacing: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 10px rgba(34,211,238,0.8);
+  line-height: 1.1;
+}
+
+.hbtns{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.hbtn{
+  background: var(--panel2);
+  border: 1px solid rgba(255,215,0,0.25);
+  border-radius: 10px;
+  color: var(--gold);
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hbtn:hover{
+  border-color: var(--gold);
+  box-shadow: 0 0 14px rgba(255,215,0,.35);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.hbtn.btn-cyan {
+  border-color: rgba(34,211,238,0.4);
+  color: var(--cyan);
+}
+.hbtn.btn-cyan:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px rgba(34,211,238,0.45);
+}
+.hbtn .cnt{
+  background: var(--gold);
+  color: #1a1400;
+  font-size: 9px;
+  font-weight: 800;
+  border-radius: 99px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+/* TABS (Mobile) */
+.tabs{display:none;max-width:1280px;margin:0 auto;padding:10px 12px 0;gap:8px}
+.tabs button{
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid rgba(255,215,0,0.2);
+  color: var(--mut);
+  border-radius: 10px;
+  padding: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+.tabs button.act{
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-soft);
+  box-shadow: 0 0 12px rgba(255,215,0,0.2);
+}
+
+/* MAIN LAYOUT */
+.main-content{
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 16px;
+  padding: 16px 14px 100px;
+}
+.khutbah-panel{flex:1;min-width:0}
+.khutbah-header{margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px}
+.khutbah-header h2{
+  font-family: 'Cinzel', serif;
+  color: var(--gold);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  letter-spacing: 1px;
+}
+.khutbah-header p{font-size:12px;color:var(--mut);margin-top:2px}
+
+.searchwrap{position:relative;margin-bottom:12px}
+.searchwrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#64748b;font-size:13px}
+#search{
+  width: 100%;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(255,215,0,0.25);
+  border-radius: 12px;
+  padding: 12px 14px 12px 38px;
+  color: var(--txt);
+  font-size: 13.5px;
+  outline: none;
+  backdrop-filter: blur(8px);
+  transition: border-color .2s, box-shadow .2s;
+}
+#search:focus{
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(255,215,0,0.2);
+}
+
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.chip{
+  background: rgba(18,22,30,0.85);
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 6px 13px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .18s;
+  backdrop-filter: blur(6px);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.chip:hover{color:var(--gold);border-color:var(--gold)}
+.chip.act{
+  background: var(--gold-soft);
+  color: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(255,215,0,.2);
+  font-weight: 700;
+}
+.chip.chip-doa.act{
+  background: rgba(34,211,238,0.15);
+  color: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px rgba(34,211,238,.3);
+}
+.chip.chip-art.act{
+  background: rgba(192,132,252,0.15);
+  color: var(--pur);
+  border-color: var(--pur);
+  box-shadow: 0 0 12px rgba(192,132,252,.3);
+}
+
+/* CARDS */
+.khutbah-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 13px;
+}
+.khutbah-card{
+  background: rgba(18,24,35,0.85);
+  backdrop-filter: blur(8px);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,215,0,0.15);
+  transition: all .25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+}
+.khutbah-card::before{
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: .6;
+}
+.khutbah-card:hover{
+  border-color: var(--gold);
+  box-shadow: 0 10px 28px rgba(0,0,0,.6), 0 0 18px rgba(255,215,0,.2);
+  transform: translateY(-3px);
+}
+.khutbah-card.card-doa::before {
+  background: linear-gradient(90deg, var(--cyan), transparent);
+}
+.khutbah-card.card-doa:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 10px 28px rgba(0,0,0,.6), 0 0 18px rgba(34,211,238,.25);
+}
+.khutbah-card.card-art::before {
+  background: linear-gradient(90deg, var(--pur), transparent);
+}
+.khutbah-card.card-art:hover {
+  border-color: var(--pur);
+  box-shadow: 0 10px 28px rgba(0,0,0,.6), 0 0 18px rgba(192,132,252,.25);
+}
+
+.khutbah-card h3{
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 7px;
+  padding-right: 28px;
+  line-height: 1.45;
+}
+.khutbah-card .meta{font-size:11px;color:var(--mut)}
+.khutbah-card .tagz{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9.5px;
+  letter-spacing: .5px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--gold-dark);
+  color: var(--gold);
+  background: rgba(255,215,0,.08);
+  margin-top: 10px;
+  width: fit-content;
+}
+.khutbah-card .star{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #475569;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 4px;
+  transition: all .2s;
+  z-index: 2;
+}
+.khutbah-card .star:hover{color:var(--gold);transform:scale(1.25)}
+.khutbah-card .star.on{color:var(--gold);text-shadow:0 0 12px rgba(255,215,0,.7)}
+.khutbah-card .edt{
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+}
+.khutbah-card .edt button{
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  border-radius: 7px;
+  width: 27px;
+  height: 27px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: .15s;
+}
+.khutbah-card .edt button:hover{color:var(--gold);border-color:var(--gold)}
+.khutbah-card .edt button.delm:hover{color:var(--red);border-color:var(--red)}
+
+.empty{padding:50px 14px;text-align:center;color:#64748b;font-size:13.5px;grid-column:1/-1}
+
+/* CHAT ASSISTANT PANEL */
+.chat-panel{
+  width: 410px;
+  flex: none;
+  background: var(--panel);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: calc(100vh - 160px);
+  min-height: 520px;
+  position: sticky;
+  top: 80px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.chat-header{
+  padding: 12px 16px;
+  background: #0f172a;
+  border-bottom: 1px solid var(--gold-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chat-header h2{
+  color: var(--gold);
+  font-size: 14px;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chat-box{
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.msg{
+  max-width: 88%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 12.8px;
+  line-height: 1.65;
+}
+.msg.bot{
+  background: var(--panel2);
+  align-self: flex-start;
+  border-left: 3px solid var(--gold);
+  animation: fadeUp .25s ease-out;
+  border: 1px solid rgba(255,215,0,0.15);
+  border-left-width: 3px;
+}
+.msg.user{
+  background: linear-gradient(135deg, #10b981, #0d9488);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 3px;
+  box-shadow: 0 4px 14px rgba(16,185,129,0.25);
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.bot-highlight{color:var(--cyan);font-weight:700}
+.arab-inline{font-family:'Amiri',serif;color:var(--gold);font-size:1.1em}
+.bot-sources{
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 10.5px;
+  line-height: 2.2;
+}
+.src{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin: 2px 3px 2px 0;
+  font-size: 10.5px;
+  font-weight: 600;
+  border: 1px solid;
+  transition: all .2s;
+}
+.src:hover{transform:scale(1.04)}
+.src.wiki{color:var(--grn);border-color:rgba(61,220,151,.4);background:rgba(61,220,151,.07)}
+.src.gog{color:var(--blu);border-color:rgba(90,167,255,.4);background:rgba(90,167,255,.07)}
+.src.cop{color:var(--red);border-color:rgba(255,122,122,.4);background:rgba(255,122,122,.07)}
+.src.gem{color:var(--pur);border-color:rgba(192,132,252,.4);background:rgba(192,132,252,.07)}
+.src.gpt{color:var(--amb);border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.07)}
+
+.chat-shortcuts {
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(10,14,22,0.9);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto;
+}
+.chat-shortcuts button {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 4px 9px;
+  border-radius: 8px;
+  font-size: 10.5px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: .15s;
+}
+.chat-shortcuts button:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.chat-input-area{
+  padding: 10px 12px;
+  background: #0f172a;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid rgba(255,215,0,0.15);
+  align-items: center;
+}
+.chat-input-area input{
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 99px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #fff;
+  font-size: 12.5px;
+  outline: none;
+}
+.chat-input-area input:focus{border-color:var(--gold)}
+.chat-input-area button{
+  background: var(--gold);
+  color: #1a1400;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .2s;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-input-area button:hover{background:#fff;transform:scale(1.05)}
+.chat-input-area button.mic-btn{
+  background: #1e293b;
+  color: var(--cyan);
+  border: 1px solid rgba(34,211,238,0.4);
+}
+.chat-input-area button.mic-btn.active{
+  background: rgba(239,68,68,0.25);
+  color: #ef4444;
+  border-color: #ef4444;
+  animation: pulse 1s infinite;
+}
+
+/* MODALS */
+.modal{
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(2,6,23,0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 14px;
+  overflow-y: auto;
+}
+.modal.show{display:flex}
+.mbox{
+  width: 100%;
+  max-width: 860px;
+  background: #0f172a;
+  border: 1.5px solid var(--gold-dark);
+  border-radius: 18px;
+  box-shadow: 0 0 50px rgba(255,215,0,.15);
+  overflow: hidden;
+  margin: auto;
+  animation: pop .22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.mhead{
+  background: linear-gradient(135deg, rgba(255,215,0,.16), rgba(184,134,11,.08));
+  border-bottom: 1px solid var(--gold-dark);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mhead h2{
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(14px, 3vw, 17px);
+  font-weight: 700;
+  color: var(--gold);
+  flex: 1;
+  letter-spacing: .8px;
+}
+.mx{
+  background: rgba(255,255,255,.05);
+  border: 1px solid #475569;
+  color: #ddd;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .15s;
+}
+.mx:hover{color:var(--gold);border-color:var(--gold);background:rgba(255,215,0,0.1)}
+.mbody{padding:20px;max-height:calc(100vh - 190px);overflow-y:auto}
+.mfoot{
+  border-top: 1px solid rgba(255,215,0,0.2);
+  background: #0b1120;
+  padding: 12px 18px;
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.btn{
+  background: linear-gradient(135deg, #e6c30e, #b8860b);
+  border: none;
+  color: #1a1400;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: .2s;
+  letter-spacing: .3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn:hover{filter:brightness(1.15);box-shadow:0 4px 16px rgba(255,215,0,.35)}
+.btn.ghost{
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+  box-shadow: none;
+}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn.dgr{background:linear-gradient(135deg,#ef4444,#991b1b);color:#fff}
+.btn.cyan{background:linear-gradient(135deg,#06b6d4,#0284c7);color:#fff}
+
+/* READER STYLING */
+.rmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.rtag{
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 11px;
+  border-radius: 99px;
+  border: 1px solid var(--gold-dark);
+  color: var(--gold);
+  background: rgba(255,215,0,.08);
+  font-weight: 600;
+}
+.rtag.cyan{border-color:var(--cyan);color:var(--cyan);background:rgba(34,211,238,0.1)}
+.rsec{margin-bottom:18px}
+.rsec .rlab{
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+.rsec .rlab::after{
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,215,0,.35), transparent);
+}
+.rsec .rtxt{
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+}
+.rsec .rtxt.arab{
+  font-size: 1.35rem;
+  color: var(--gold);
+  text-align: center;
+  padding: 14px 10px;
+  background: rgba(255,215,0,.05);
+  border-radius: 12px;
+  border: 1px solid rgba(184,134,11,.3);
+  margin-bottom: 6px;
+}
+.latin-text {
+  font-style: italic;
+  color: #38bdf8;
+  font-size: 12.5px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border-left: 2px solid #38bdf8;
+}
+.quote{
+  border-left: 3px solid var(--gold-dark);
+  padding: 10px 16px;
+  margin: 12px 0;
+  font-size: 13px;
+  color: #cbd5e1;
+  background: rgba(255,215,0,.04);
+  border-radius: 0 10px 10px 0;
+}
+.quote .q-src{
+  display: block;
+  font-size: 10.5px;
+  color: var(--gold);
+  margin-top: 6px;
+  font-weight: 600;
+}
+ul.poin{padding-left:0;list-style:none}
+ul.poin li{
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: #cbd5e1;
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 8px;
+}
+ul.poin li::before{
+  content: "058";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--gold);
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  top: 4px;
+}
+
+/* EDITOR FIELDS */
+.fld{margin-bottom:14px}
+.fld label{
+  display: block;
+  font-size: 11px;
+  letter-spacing: .8px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.fld input,.fld select,.fld textarea{
+  width: 100%;
+  background: #090e17;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 11px 13px;
+  color: #f1f5f9;
+  font-size: 13px;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+}
+.fld textarea{min-height:140px;line-height:1.7;resize:vertical}
+.fld textarea.arab-edit{
+  font-family: 'Amiri', serif;
+  font-size: 1.25rem;
+  direction: rtl;
+  min-height: 80px;
+}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--gold);box-shadow:0 0 10px rgba(255,215,0,0.15)}
+.fhint{font-size:10.5px;color:#64748b;margin-top:4px}
+
+/* FLOATING ORBITING APPS & BUTTONS */
+.orbit-app-btn {
+  position: absolute;
+  top: 50%; left: 50%;
+  margin-top: -15px; margin-left: -50px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid #14b8a6;
+  color: #5eead4;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-decoration: none;
+  white-space: nowrap;
+  pointer-events: auto;
+  box-shadow: 0 0 15px rgba(20, 184, 166, 0.4);
+  animation: floatApp 8s linear forwards;
+  display: flex; gap: 8px; align-items: center;
+  z-index: 20;
+  transition: all 0.3s;
+}
+.orbit-app-btn:hover {
+  background: rgba(20, 184, 166, 0.25);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.6);
+  border-color: rgba(234, 179, 8, 0.8);
+  color: #fef08a;
+}
+@keyframes floatApp {
+  0% { opacity: 0; transform: rotate(var(--angle)) translateX(var(--radius)) rotate(calc(-1 * var(--angle))) scale(0.5); }
+  15% { opacity: 1; transform: rotate(calc(var(--angle) + 20deg)) translateX(var(--radius)) rotate(calc(-1 * (var(--angle) + 20deg))) scale(1); }
+  85% { opacity: 1; transform: rotate(calc(var(--angle) + 100deg)) translateX(var(--radius)) rotate(calc(-1 * (var(--angle) + 100deg))) scale(1); }
+  100% { opacity: 0; transform: rotate(calc(var(--angle) + 120deg)) translateX(var(--radius)) rotate(calc(-1 * (var(--angle) + 120deg))) scale(0.5); }
+}
+
+/* SCREENSAVER */
+#islamicScreensaver{
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: none;
+  opacity: 0;
+  transition: opacity .7s ease;
+  overflow: hidden;
+  user-select: none;
+}
+#islamicScreensaver.show{display:flex;opacity:1}
+#sc-orbit-apps{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.screensaver-ui{
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 20px 30px;
+  text-align: center;
+}
+.screensaver-clock{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(2.8rem, 10vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #22d3ee, #e879f9, #34d399, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(34,211,238,0.7));
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.screensaver-date{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(11px, 2.8vw, 14px);
+  color: #34d399;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(34,211,238,0.5);
+  padding: 6px 24px;
+  border-radius: 99px;
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(6,182,212,0.3);
+  display: inline-block;
+}
+.screensaver-arabic{
+  font-family: 'Amiri', serif;
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  color: var(--gold);
+  line-height: 1.5;
+  text-shadow: 0 0 16px rgba(234,179,8,0.8), 0 0 32px rgba(234,179,8,0.4);
+}
+.screensaver-quote-box{
+  background: rgba(15,23,42,0.75);
+  border: 1.5px solid rgba(234,179,8,0.4);
+  border-radius: 20px;
+  padding: 22px 30px;
+  max-width: 860px;
+  width: 90%;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(234,179,8,0.25);
+  position: relative;
+  margin: 10px auto;
+}
+.st-title{
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 8px;
+}
+.st-content{
+  font-size: clamp(1.05rem, 3vw, 1.4rem);
+  font-style: italic;
+  line-height: 1.7;
+  color: #fef08a;
+  text-shadow: 0 0 10px rgba(234,179,8,0.6);
+}
+.wakeup-prompt{
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* FLOATING CONTROLS */
+.floating-container {
+  position: fixed;
+  bottom: 50px;
+  right: 18px;
+  z-index: 600;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 9px;
+}
+.float-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15,23,42,0.92);
+  border: 1.5px solid var(--gold-dark);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(6px);
+}
+.float-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--gold);
+  box-shadow: 0 0 18px rgba(255,215,0,0.4);
+  color: #fff;
+}
+.float-btn.btn-cyan { border-color: var(--cyan); color: var(--cyan); }
+.float-btn.btn-cyan:hover { box-shadow: 0 0 18px rgba(34,211,238,0.5); }
+.float-btn.btn-emerald { border-color: var(--emerald); color: var(--emerald); }
+.float-btn.btn-red { border-color: var(--red); color: var(--red); }
+
+/* FLOATING QUOTES WIDGET */
+#floatingQuoteWidget{
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 550;
+  width: 90%;
+  max-width: 520px;
+  background: rgba(15,23,42,0.95);
+  border: 2px solid var(--gold-dark);
+  border-radius: 18px;
+  padding: 18px 22px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 25px rgba(255,215,0,0.25);
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  animation: pop .25s ease;
+}
+#floatingQuoteWidget.show{display:flex}
+
+/* FOOTER */
+footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 45;
+  background: linear-gradient(0deg, rgba(4,7,13,0.98), rgba(4,7,13,0.9));
+  border-top: 1px solid rgba(255,215,0,0.2);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+footer a{
+  text-decoration: none;
+  color: var(--gold);
+  font-size: 11px;
+  opacity: .9;
+  transition: .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+footer a:hover{opacity:1;color:#fff;text-shadow:0 0 8px var(--gold)}
+footer .dev{font-size:11px;color:var(--mut)}
+footer .dev b{color:var(--gold)}
+
+.toast{
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(184,134,11,.96);
+  border: 1.5px solid var(--gold);
+  color: #fff;
+  padding: 9px 22px;
+  border-radius: 99px;
+  font-size: 12.5px;
+  font-weight: 600;
+  z-index: 9999;
+  transition: opacity .3s;
+  box-shadow: 0 6px 20px rgba(0,0,0,.5), 0 0 15px rgba(255,215,0,.3);
+  pointer-events: none;
+}
+
+@media(max-width:960px){
+  .tabs{display:flex}
+  .chat-panel{display:none;width:100%;height:auto;min-height:440px;position:static}
+  .chat-panel.act{display:flex}
+  .khutbah-panel.hide{display:none}
+  .main-content{padding-bottom:110px}
+  .header-clock-box{order:3;width:100%;margin:4px 0}
+}
+@media print{
+  header, .tabs, .mfoot, footer, #islamicScreensaver, .chat-panel, .chips, .searchwrap, .floating-container, #earth-3d-bg {
+    display: none !important;
+  }
+  .mbody{max-height:none}
+  body{background:#fff;color:#000}
+  .rtxt, .rtxt.arab{color:#000!important}
+  .mbox{border:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 3D Realistic Earth Background Canvas -->
+<div id="earth-3d-bg"></div>
+
+<!-- LOADER FUTURISTIK ISLAMI -->
+<div id="loading-screen">
+  <div class="loader-card-clock">
+    <span class="loader-date" id="loader-date">MEMUAT HARI...</span>
+    <span class="loader-time" id="loader-time">00:00:00</span>
+  </div>
+
+  <div class="orbit-container">
+    <div class="orbit-ring-1"></div>
+    <div class="orbit-ring-2"></div>
+    <div class="orbit-ring-3"></div>
+    <div style="width:72px;height:72px;border-radius:50%;background:rgba(15,23,42,0.85);border:1.5px solid var(--gold);box-shadow:0 0 25px rgba(255,215,0,0.5);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative">
+      <i class="fa-solid fa-earth-asia" style="color:rgba(34,211,238,0.25);position:absolute;font-size:3.8rem;animation:spin 14s linear infinite"></i>
+      <i class="fa-solid fa-mosque super-glow" style="color:var(--gold);font-size:2rem;position:relative;z-index:2;animation:pulse 2s infinite"></i>
+    </div>
+  </div>
+
+  <h2 class="arab animate-gold-glow" style="font-size:2rem;color:var(--gold);margin-bottom:4px" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+  <h1 class="loader-title">MIMBAR DIGITAL GOLD PRO v3.0</h1>
+  <p class="loader-sub">Platform Khutbah, Artikel &amp; Materi Keislaman, serta Doa Digital — Aswaja Madzhab Syafi'i</p>
+
+  <div class="loader-progress-wrap">
+    <div class="loader-progress-bar" id="loader-bar"></div>
+  </div>
+  <p class="font-mono-tech" id="loader-status" style="font-size:10.5px;color:#22d3ee;letter-spacing:1.5px;margin-top:10px">&gt;_ MENGINISIALISASI SISTEM REALISTIS 3D &amp; DATABASE...</p>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo" onclick="setKat('semua')">
+    <div class="ic"><i class="fas fa-mosque"></i></div>
+    <div>
+      <h1 class="mosque-font">MIMBAR DIGITAL GOLD <span style="font-size:.62em;color:#22d3ee">PRO v3.0</span></h1>
+      <small>KHUTBAH · ARTIKEL ISLAMI · MATERI ASWAJA · DOA &amp; DZIKIR</small>
+    </div>
+  </div>
+
+  <!-- Colorful Live Day & Time Badge -->
+  <div class="header-clock-box">
+    <span class="header-date" id="dashboard-date">Memuat Hari...</span>
+    <span class="header-time" id="dashboard-time">00:00:00</span>
+  </div>
+
+  <div class="hbtns">
+    <button class="hbtn" onclick="setTab('list')" title="Daftar Khutbah &amp; Artikel"><i class="fas fa-book-open"></i><span class="cnt" id="cntAll">0</span></button>
+    <button class="hbtn btn-cyan" onclick="setKat('Doa')" title="Kumpulan Doa"><i class="fas fa-hands-praying"></i> Doa</button>
+    <button class="hbtn" onclick="setTab('chat')" title="Asisten AI Mimbar"><i class="fas fa-robot"></i> Asisten AI</button>
+    <button class="hbtn" onclick="openEditor(null)" title="Tulis Naskah / Artikel Baru"><i class="fas fa-plus"></i> Buat Baru</button>
+    <button class="hbtn btn-cyan" onclick="activateScreensaver(event)" title="Screensaver Bumi 3D"><i class="fas fa-desktop"></i></button>
+    <button class="hbtn" onclick="openHelp()" title="Pusat Bantuan"><i class="fas fa-circle-question"></i></button>
+    <button class="hbtn" onclick="openProg()" title="Profil Programmer"><i class="fas fa-user-astronaut"></i></button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button id="tabL" class="act" onclick="setTab('list')"><i class="fas fa-book-open"></i> Naskah &amp; Materi</button>
+  <button id="tabC" onclick="setTab('chat')"><i class="fas fa-robot"></i> Asisten AI</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div class="khutbah-panel" id="panelList">
+    <div class="khutbah-header">
+      <div>
+        <h2 class="mosque-font"><i class="fas fa-scroll"></i> PERPUSTAKAAN DAKWAH &amp; ARTIKEL ISLAMI</h2>
+        <p id="collSub">Khutbah Jumat, Hari Raya, Artikel Tematik, Materi Fiqih &amp; Kumpulan Doa</p>
+      </div>
+      <div style="font-size:11px;color:var(--cyan);font-family:'JetBrains Mono',monospace">
+        <i class="fa-solid fa-certificate"></i> Aswaja Madzhab Syafi'i
+      </div>
+    </div>
+
+    <div class="searchwrap">
+      <i class="fas fa-magnifying-glass"></i>
+      <input id="search" placeholder="Cari naskah khutbah, artikel, materi fiqih, atau doa... (mis: jumat, istighfar, wudhu, sedekah, nikah)">
+    </div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="khutbah-list" id="khutbah-container"></div>
+  </div>
+
+  <!-- AI ASSISTANT PANEL -->
+  <div class="chat-panel" id="panelChat">
+    <div class="chat-header">
+      <h2><i class="fas fa-robot"></i> ASISTEN AI MIMBAR</h2>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="font-mono-tech" style="font-size:11px;color:var(--cyan)" id="chat-clock">--:--:--</span>
+        <button class="mx" style="width:26px;height:26px;font-size:12px" onclick="clearChat()" title="Bersihkan Percakapan"><i class="fas fa-trash-can"></i></button>
+      </div>
+    </div>
+
+    <div class="chat-shortcuts">
+      <button onclick="sendQuickPrompt('rukun khutbah jumat')"><i class="fas fa-scroll"></i> Rukun Khutbah</button>
+      <button onclick="sendQuickPrompt('fiqih sholat madzhab syafii')"><i class="fas fa-mosque"></i> Fiqih Sholat</button>
+      <button onclick="sendQuickPrompt('tata cara zakat fitrah')"><i class="fas fa-coins"></i> Zakat Fitrah</button>
+      <button onclick="sendQuickPrompt('doa mustajab dan dzikir')"><i class="fas fa-hands-praying"></i> Doa Mustajab</button>
+      <button onclick="sendQuickPrompt('tazkiyatun nafs pembersih hati')"><i class="fas fa-heart"></i> Tazkiyatun Nafs</button>
+      <button onclick="sendQuickPrompt('programmer')"><i class="fas fa-code"></i> Programmer</button>
+    </div>
+
+    <div class="chat-box" id="chat-box">
+      <div class="msg bot">
+        Assalamu'alaikum warahmatullahi wabarakatuh. Saya <span class="bot-highlight">Asisten AI Mimbar Digital Pro</span>.
+        <br><br>
+        Silakan tanyakan seputar <span class="arab-inline">rukun &amp; syarat khutbah</span>, fiqih madzhab Syafi'i, kajian artikel islami, tata cara ibadah (thaharah, sholat, zakat, puasa), serta kumpulan doa &amp; dzikir ma'tsur.
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <button id="mic-btn" class="mic-btn" onclick="toggleSpeech()" title="Perintah Suara"><i class="fas fa-microphone"></i></button>
+      <input type="text" id="chat-input" placeholder="Tanya: rukun khutbah, doa istighfar, fiqih zakat..." onkeypress="handleChat(event)">
+      <button onclick="sendMsg()" title="Kirim"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING CONTROLS -->
+<div class="floating-container">
+  <button class="float-btn" id="btnToggleFloating" onclick="toggleFloatingMenu()" title="Sembunyikan/Buka Menu">
+    <i class="fas fa-angles-right" id="iconToggleFloat"></i>
+  </button>
+  <div id="floatButtonGroup" style="display:flex;flex-direction:row-reverse;align-items:center;gap:9px">
+    <button class="float-btn btn-cyan" onclick="setTab('chat')" title="Asisten AI"><i class="fas fa-robot"></i></button>
+    <button class="float-btn" onclick="toggleFloatingQuotes()" title="Kutipan &amp; Doa Mutiara"><i class="fas fa-quote-left"></i></button>
+    <button class="float-btn btn-emerald" id="btnAutoSc" onclick="toggleAutoSc()" title="Auto Screensaver (ON)"><i class="fas fa-desktop"></i></button>
+    <button class="float-btn" onclick="openScSettings()" title="Pengaturan Screensaver"><i class="fas fa-gear"></i></button>
+    <button class="float-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Kembali ke Atas"><i class="fas fa-arrow-up"></i></button>
+  </div>
+</div>
+
+<!-- FLOATING QUOTES WIDGET -->
+<div id="floatingQuoteWidget">
+  <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,215,0,0.2);padding-bottom:8px">
+    <div style="color:var(--gold);font-weight:700;font-size:12px;letter-spacing:1px;font-family:'JetBrains Mono',monospace">
+      <i class="fa-solid fa-kaaba"></i> MUTIARA HIKMAH &amp; DOA
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button class="mx" style="width:26px;height:26px;font-size:11px" onclick="navQuote(-1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="mx" style="width:26px;height:26px;font-size:11px" onclick="navQuote(1)"><i class="fas fa-chevron-right"></i></button>
+      <button class="mx" style="width:26px;height:26px;font-size:12px" onclick="toggleFloatingQuotes()"><i class="fas fa-xmark"></i></button>
+    </div>
+  </div>
+  <div style="min-height:75px;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 0">
+    <p id="quoteWidgetText" style="font-size:13.5px;font-style:italic;color:#fef08a;line-height:1.7">Memuat mutiara kearifan Islami...</p>
+  </div>
+</div>
+
+<!-- SCREENSAVER DENGAN BUMI 3D & BADGES -->
+<div id="islamicScreensaver">
+  <div id="sc-orbit-apps"></div>
+  <button onclick="deactivateScreensaver()" style="position:absolute;top:20px;right:20px;z-index:50;background:rgba(15,23,42,0.85);border:1px solid rgba(255,215,0,0.4);color:var(--gold);padding:8px 16px;border-radius:12px;font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;backdrop-filter:blur(6px);transition:.2s">
+    <i class="fa-solid fa-power-off"></i> Tutup Screensaver
+  </button>
+
+  <div class="screensaver-ui">
+    <div style="margin-top:10px">
+      <h2 class="screensaver-arabic animate-gold-glow" dir="rtl">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ</h2>
+      <div class="screensaver-clock" id="ss-time">00:00:00</div>
+      <div class="screensaver-date" id="ss-date">Hari, Tanggal</div>
+    </div>
+
+    <div class="screensaver-quote-box animate-gold-glow-box">
+      <div class="st-title" id="ss-type">Mutiara Hikmah</div>
+      <div class="st-content" id="ss-text">"Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya."</div>
+    </div>
+
+    <div class="wakeup-prompt">
+      <i class="fa-solid fa-hand-pointer"></i> Sentuh Layar / Gerakkan Mouse untuk Kembali
+    </div>
+  </div>
+</div>
+
+<!-- READER MODAL -->
+<div class="modal" id="modalRead"><div class="mbox">
+  <div class="mhead">
+    <h2 id="mTitleR"></h2>
+    <button class="mx" onclick="closeModal('modalRead')"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="mbody" id="rBody"></div>
+  <div class="mfoot">
+    <button class="btn" id="btnBm" onclick="readerBm()"><i class="far fa-star"></i> Bookmark</button>
+    <button class="btn ghost" onclick="speakTxt()"><i class="fas fa-volume-high"></i> Bacakan (TTS)</button>
+    <button class="btn ghost" onclick="copyTxt()"><i class="fas fa-copy"></i> Salin Teks</button>
+    <button class="btn ghost" onclick="shareWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <button class="btn ghost" onclick="printRead()"><i class="fas fa-print"></i> Cetak</button>
+  </div>
+</div></div>
+
+<!-- EDITOR MODAL -->
+<div class="modal" id="modalEdit"><div class="mbox">
+  <div class="mhead">
+    <span style="color:var(--gold);font-size:18px"><i class="fas fa-pen-nib"></i></span>
+    <h2 id="edTitle">TAMBAH NASKAH / ARTIKEL BARU</h2>
+    <button class="mx" onclick="closeModal('modalEdit')"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="mbody">
+    <div class="fld"><label>Judul *</label><input id="f_judul" placeholder="mis: Khutbah Jumat - Keberkahan Sedekah / Kajian Tazkiyatun Nafs"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="fld">
+        <label>Kategori</label>
+        <select id="f_kat">
+          <option>Jumat</option>
+          <option>Hari Raya</option>
+          <option>Nikah</option>
+          <option>Fiqih</option>
+          <option>Artikel</option>
+          <option>Materi</option>
+          <option>Doa</option>
+        </select>
+      </div>
+      <div class="fld"><label>&nbsp;</label><div class="fhint">Tersimpan permanen di perangkat lokal Anda (localStorage) dan bisa dibackup ke JSON.</div></div>
+    </div>
+    <div class="fld"><label>Teks Pembuka / Khutbah 1 (Arab / Doa Pokok)</label><textarea id="f_a1" class="arab-edit" dir="rtl"></textarea></div>
+    <div class="fld"><label>Uraian / Poin-poin Pembahasan (Satu baris per poin)</label><textarea id="f_isi1" placeholder="Poin 1: Penjelasan...
+Poin 2: Penjelasan..."></textarea></div>
+    <div class="fld"><label>Dalil Al-Qur'an / Hadits (Arab, Opsional)</label><textarea id="f_qta" class="arab-edit" dir="rtl"></textarea></div>
+    <div class="fld">
+      <label>Terjemah &amp; Sumber Dalil</label>
+      <input id="f_qtt" placeholder="Terjemahan ayat atau hadits...">
+      <input id="f_qts" style="margin-top:6px" placeholder="Sumber (mis: HR. Muslim / QS. Al-Baqarah: 152)">
+    </div>
+    <div class="fld"><label>Teks Khutbah Kedua / Penutup (Arab, Opsional)</label><textarea id="f_a2" class="arab-edit" dir="rtl"></textarea></div>
+    <div class="fld"><label>Kesimpulan / Penutup (Poin-poin)</label><textarea id="f_isi2"></textarea></div>
+    <div class="fld"><label>Doa Penutup (Arab, Opsional)</label><textarea id="f_du" class="arab-edit" dir="rtl"></textarea></div>
+  </div>
+  <div class="mfoot">
+    <button class="btn" onclick="saveEditor()"><i class="fas fa-floppy-disk"></i> Simpan Naskah</button>
+    <button class="btn ghost" onclick="backupJSON()"><i class="fas fa-download"></i> Backup Semua (JSON)</button>
+    <button class="btn ghost" onclick="restoreJSON()"><i class="fas fa-upload"></i> Restore</button>
+    <button class="btn dgr" onclick="closeModal('modalEdit')"><i class="fas fa-xmark"></i> Batal</button>
+  </div>
+</div></div>
+
+<!-- SCREENSAVER SETTINGS MODAL -->
+<div class="modal" id="modalScSettings"><div class="mbox" style="max-width:440px">
+  <div class="mhead">
+    <span style="color:var(--cyan);font-size:17px"><i class="fas fa-desktop"></i></span>
+    <h2>PENGATURAN SCREENSAVER</h2>
+    <button class="mx" onclick="closeModal('modalScSettings')"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="mbody" style="font-size:13px">
+    <p style="color:#94a3b8;margin-bottom:14px">Sesuaikan aktivasi otomatis screensaver bumi realistis dan putaran mutiara doa.</p>
+    <div style="background:#090e17;padding:14px;border-radius:12px;border:1px solid #334155;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-weight:600;color:#e2e8f0">Auto Screensaver</span>
+      <input type="checkbox" id="chkAutoSc" style="transform:scale(1.4);cursor:pointer">
+    </div>
+    <div style="background:#090e17;padding:14px;border-radius:12px;border:1px solid #334155;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-weight:600;color:#e2e8f0">Waktu Diam (Menit):</span>
+      <input type="number" id="scTimeInput" min="1" max="60" value="3" style="width:65px;background:#1e293b;border:1px solid #475569;border-radius:8px;padding:6px;color:#fff;text-align:center;font-weight:700">
+    </div>
+  </div>
+  <div class="mfoot">
+    <button class="btn cyan" onclick="saveScSettings()"><i class="fas fa-check"></i> Simpan</button>
+    <button class="btn ghost" onclick="closeModal('modalScSettings'); activateScreensaver(event);"><i class="fas fa-play"></i> Coba Sekarang</button>
+  </div>
+</div></div>
+
+<!-- HELP MODAL -->
+<div class="modal" id="modalHelp"><div class="mbox">
+  <div class="mhead">
+    <span style="color:var(--gold);font-size:18px"><i class="fas fa-circle-question"></i></span>
+    <h2>PUSAT BANTUAN &amp; FITUR LENGKAP</h2>
+    <button class="mx" onclick="closeModal('modalHelp')"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="mbody" style="font-size:13px;line-height:1.8;color:#cbd5e1">
+    <p style="color:var(--gold);font-weight:700;font-size:15px;margin-bottom:8px">Mimbar Digital Gold Pro v3.0 (Cyber Islamic Edition)</p>
+    <p><b style="color:var(--gold)">1. Integrasi Konten Lengkap:</b> Memuat khutbah Jumat, Hari Raya, khutbah nikah, artikel kajian tematik (Tazkiyatun Nafs, Muamalah, Sirah), materi fiqih praktis (Sholat, Thaharah, Zakat, Puasa), dan kumpulan doa ma'tsur beserta teks Arab, latin, dan terjemahan.</p>
+    <p><b style="color:var(--cyan)">2. Realistis 3D Earth &amp; Awan:</b> Tampilan bumi berotasi menggunakan Three.js dengan tekstur planet fotorealistis, lapisan atmosfer bersinar, dan awan dinamis yang berputar secara mandiri.</p>
+    <p><b style="color:var(--emerald)">3. Hari &amp; Jam Dinamis Warna Menarik:</b> Panel jam digital cyber-Islamic di header dan screensaver menampilkan hari dan waktu real-time dengan gradasi warna neon (emerald, cyan, gold) dan drop shadow memikat.</p>
+    <p><b style="color:#c084fc">4. Screensaver Mutiara Islami:</b> Mode hemat layar cerdas yang menampilkan rotasi kutipan hikmah, jam raksasa, dan tombol aplikasi penjelajah yang mengorbit secara dinamis.</p>
+    <p><b style="color:var(--amb)">5. Asisten AI Mimbar &amp; Speech:</b> Tanya jawab fiqih Madzhab Syafi'i dengan dukungan Text-To-Speech (TTS) dan integrasi pencarian cepat ke ensiklopedia Wikipedia, Google, Gemini AI, Copilot, dan ChatGPT.</p>
+    <div style="background:#090e17;padding:12px;border-radius:10px;border-left:3px solid var(--gold);margin-top:14px">
+      <small style="color:#94a3b8"><i class="fa-solid fa-triangle-exclamation" style="color:var(--amb)"></i> Seluruh naskah disiapkan sesuai kaidah Ahlussunnah wal Jama'ah (Madzhab Syafi'i). Khatib dan asatidz disunnahkan tetap melakukan tabayyun dan penyesuaian sesuai konteks jamaah setempat.</small>
+    </div>
+  </div>
+</div></div>
+
+<!-- PROGRAMMER MODAL -->
+<div class="modal" id="modalProg"><div class="mbox" style="max-width:520px">
+  <div class="mhead">
+    <span style="color:var(--gold);font-size:18px"><i class="fas fa-user-astronaut"></i></span>
+    <h2>PROGRAMMER &amp; DEVELOPER</h2>
+    <button class="mx" onclick="closeModal('modalProg')"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="mbody" style="text-align:center;padding:24px 18px">
+    <div style="width:90px;height:90px;margin:0 auto 14px;border-radius:50%;border:2px solid var(--gold);background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(34,211,238,.1));display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--gold);box-shadow:0 0 30px rgba(255,215,0,.3)">
+      <i class="fas fa-mosque"></i>
+    </div>
+    <h3 style="margin:0;font-family:'Cinzel',serif;font-weight:800;font-size:19px;letter-spacing:1px;color:#fff">Ir. MOHAMAD HARTADI (ADI)</h3>
+    <p style="margin:4px 0 16px;color:var(--cyan);font-size:11.5px;letter-spacing:2px;font-family:'JetBrains Mono',monospace">CIVIL ENGINEER &amp; AI SYSTEM ARCHITECT</p>
+    
+    <div style="background:#090e17;border:1px solid #334155;border-radius:12px;padding:14px;text-align:left;font-size:12.5px;line-height:1.8;margin-bottom:18px">
+      <div style="color:#cbd5e1"><i class="fa-brands fa-facebook text-primary" style="color:#38bdf8;width:20px"></i> <b>Facebook:</b> <a href="https://www.facebook.com/hartadi.kds" target="_blank" style="color:var(--cyan);text-decoration:underline">facebook.com/hartadi.kds</a></div>
+      <div style="color:#cbd5e1"><i class="fa-solid fa-blog" style="color:#fbbf24;width:20px"></i> <b>Blog:</b> <a href="https://newbieonline7.blogspot.com" target="_blank" style="color:var(--gold);text-decoration:underline">newbieonline7.blogspot.com</a></div>
+      <div style="color:#cbd5e1"><i class="fa-brands fa-whatsapp" style="color:#34d399;width:20px"></i> <b>WhatsApp:</b> <a href="https://wa.me/082231036047" target="_blank" style="color:#34d399;text-decoration:underline">082231036047</a></div>
+      <div style="color:#94a3b8;font-size:11px;margin-top:6px;border-top:1px solid #1e293b;padding-top:6px">
+        Portofolio: Al-Quran Karim, Kumpulan Doa Digital Pro, Mimbar Digital Gold, Geostruct Pro, AeroRadar, USCS Soil Classifier.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="https://www.facebook.com/hartadi.kds" target="_blank"><i class="fab fa-facebook"></i> hartadi.kds</a>
+  <a href="https://newbieonline7.blogspot.com" target="_blank"><i class="fas fa-blog"></i> newbieonline7.blogspot.com</a>
+  <a href="https://wa.me/082231036047" target="_blank"><i class="fab fa-whatsapp"></i> 082231036047</a>
+  <span class="dev">Developed by <b>Ir. Mohamad Hartadi</b> © 2026</span>
+</footer>
+
+<!-- SCRIPT SECTION -->
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+let activeKat = 'semua', editId = null, readId = null;
+const FKEY = 'mimbar_fav_v3', UKEY = 'mimbar_user_v3';
+
+function getFav(){ try{ return JSON.parse(localStorage.getItem(FKEY)) || []; } catch(e){ return []; } }
+function setFav(a){ localStorage.setItem(FKEY, JSON.stringify(a)); updateCounts(); renderList(); }
+function getUser(){ try{ return JSON.parse(localStorage.getItem(UKEY)) || []; } catch(e){ return []; } }
+function setUser(a){ localStorage.setItem(UKEY, JSON.stringify(a)); renderList(); updateCounts(); }
+function allItems(){ return [...getUser(), ...DATABASE_KONTEN]; }
+function findItem(id){ return allItems().find(x => x.id === id); }
+function esc(t){ return (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+const DATABASE_KONTEN = [
+  {
+    "id": "k01",
+    "judul": "Syarat & Rukun Khutbah (Fiqih Madzhab Syafi'i)",
+    "kat": "Fiqih",
+    "poin1": [
+      "Khutbah adalah bagian tak terpisahkan dari shalat Jumat. Dalam madzhab Syafi'i, terdapat lima rukun yang wajib terpenuhi agar khutbah sah.",
+      "1. Mengucapkan hamdalah (pujian kepada Allah) pada kedua khutbah.",
+      "2. Membaca shalawat kepada Baginda Nabi Muhammad SAW pada kedua khutbah.",
+      "3. Berwasiat takwa kepada Allah pada kedua khutbah.",
+      "4. Membaca satu ayat Al-Qur'an yang dapat dipahami maknanya pada salah satu dari dua khutbah.",
+      "5. Membaca doa permohonan ampunan bagi kaum mukminin/mukminat pada khutbah kedua.",
+      "Syarat sah khutbah: Masuk waktu Zuhur, berdiri bagi yang mampu, duduk di antara dua khutbah dengan thuma'ninah, suci dari hadats dan najis, menutup aurat, dan terdengar sekurangnya oleh 40 jamaah Jumat yang sah."
+    ],
+    "qt": {
+      "a": "خَطَبَ رَسُولُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ فَقَالَ: أَمَّا بَعْدُ، فَإِنَّ خَيْرَ الْحَدِيثِ كِتَابُ اللهِ",
+      "t": "Rasulullah SAW berkhutbah lalu bersabda: 'Amma ba'du, sesungguhnya sebaik-baik perkataan adalah Kitabullah dan sebaik-baik petunjuk adalah petunjuk Muhammad.'",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Khatib dianjurkan menjaga ketenangan suara, mengusung materi yang menyentuh realitas umat, dan menghindari pembicaraan yang berlebihan agar tidak memperpanjang khutbah melampaui batas kebiasaan.",
+      "Selesai khutbah, muadzin mengumandangkan iqamah dan khatib langsung memimpin shalat dua rakaat."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k02",
+    "judul": "Keutamaan Hari Jumat & Adab Memuliakannya",
+    "kat": "Jumat",
+    "poin1": [
+      "Hari Jumat adalah Sayyidul Ayyam (penghulu segala hari) yang dipenuhi limpahan berkah dan ampunan ilahi.",
+      "Sunnah memuliakan Jumat: Mandi sunnah Jumat, memotong kuku, memakai wewangian dan pakaian terbaik (diutamakan putih).",
+      "Berangkat ke masjid lebih awal dengan berjalan tenang dan memperbanyak shalawat atas Nabi SAW.",
+      "Membaca Surat Al-Kahfi pada malam atau siang hari Jumat untuk mendapatkan pancaran cahaya ilahi.",
+      "Dilarang berbicara atau menegur orang lain saat khatib sedang berkhutbah, karena hal itu dapat membatalkan pahala Jumat."
+    ],
+    "qt": {
+      "a": "خَيْرُ يَوْمٍ طَلَعَتْ عَلَيْهِ الشَّمْسُ يَوْمُ الْجُمُعَةِ، فِيهِ خُلِقَ آدَمُ، وَفِيهِ أُدْخِلَ الْجَنَّةَ، وَفِيهِ أُخْرِجَ مِنْهَا",
+      "t": "Sebaik-baik hari di mana matahari terbit adalah hari Jumat; pada hari itu Adam diciptakan, dimasukkan ke surga, dan dikeluarkan darinya.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Manfaatkan saat mustajab doa di hari Jumat, terutama antara duduknya imam hingga selesainya shalat serta setelah waktu Ashar hingga terbenam matahari.",
+      "Jadikan Jumat sebagai sarana evaluasi spiritual dan penguat tali persaudaraan sesama mukmin."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k03",
+    "judul": "Menjaga Lisan: Pilar Keselamatan Iman",
+    "kat": "Jumat",
+    "poin1": [
+      "Lisan adalah karunia agung sekaligus ujian terbesar bagi seorang hamba. Satu kalimat baik mampu mengantarkan ke surga, sedangkan satu kata keji dapat mencampakkan ke jurang neraka.",
+      "Menjauhi ghibah (membicarakan aib orang lain), namimah (adu domba), dan kebohongan adalah kewajiban mutlak.",
+      "Islam mengajarkan prinsip: Berkata baik atau diam. Diamnya seorang mukmin dari keburukan adalah bernilai sedekah bagi dirinya."
+    ],
+    "qt": {
+      "a": "مَنْ كَانَ يُؤْمِنُ بِاللهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ جَارَهُ وَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+      "t": "Barangsiapa beriman kepada Allah dan hari akhir, hendaklah ia berkata yang baik atau diam.",
+      "s": "HR. Bukhari & Muslim"
+    },
+    "poin2": [
+      "Gunakan lisan untuk bertasbih, membaca Al-Qur'an, menyampaikan kebenaran dengan santun, serta mendamaikan perselisihan.",
+      "Keselamatan seorang insan berada pada kemampuannya menjaga lisan dan tutur katanya."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k04",
+    "judul": "Hakikat Niat & Keikhlasan dalam Beramal",
+    "kat": "Jumat",
+    "poin1": [
+      "Niat adalah penentu nilai seluruh aktivitas manusia di hadapan Allah Ta'ala.",
+      "Ikhlas adalah memurnikan tujuan beramal semata-mata mengharap ridha Allah, bersih dari riya' (ingin dipuji) dan sum'ah (ingin didengar kebaikannya).",
+      "Amal yang besar dapat menjadi kecil karena niat yang buruk, sebaliknya amal yang sederhana dapat menjadi agung karena niat yang tulus ikhlas."
+    ],
+    "qt": {
+      "a": "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+      "t": "Sesungguhnya setiap amalan bergantung pada niatnya, dan sesungguhnya setiap orang akan mendapatkan apa yang ia niatkan.",
+      "s": "HR. Bukhari & Muslim"
+    },
+    "poin2": [
+      "Perbarui niat di setiap awal pagi dan dalam setiap pekerjaan halal yang kita jalani sebagai ladang ibadah.",
+      "Ikhlas menghadirkan ketenangan batin, karena ia tidak bergantung pada pujian ataupun celaan manusia."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k05",
+    "judul": "Menjaga Sholat Lima Waktu & Keberkahan Berjamaah",
+    "kat": "Jumat",
+    "poin1": [
+      "Sholat adalah rukun Islam kedua dan tiang utama penegak agama. Sholat merupakan amalan pertama yang akan dihisab pada hari kiamat.",
+      "Menegakkan sholat di awal waktu mencerminkan kecintaan sejati hamba kepada Sang Pencipta.",
+      "Sholat berjamaah melipatgandakan pahala hingga 27 derajat dan mempererat persatuan serta ukhuwah kaum muslimin."
+    ],
+    "qt": {
+      "a": "الصَّلَوَاتُ الْخَمْسُ، وَالْجُمُعَةُ إِلَى الْجُمُعَةِ، كَفَّارَةٌ لِمَا بَيْنَهُنَّ مَا لَمْ تُغْشَ الْكَبَائِرُ",
+      "t": "Sholat lima waktu dan Jumat ke Jumat berikutnya adalah penghapus dosa di antara keduanya, selama dosa-dosa besar dijauhi.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Didiklah anak dan keluarga kita untuk istiqamah menegakkan sholat dengan penuh kesadaran dan keikhlasan.",
+      "Kekhusyukan sholat menjadi benteng pertahanan paling kokoh dari perbuatan keji dan munkar."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k06",
+    "judul": "Sedekah & Infak: Investasi Abadi Akhirat",
+    "kat": "Jumat",
+    "poin1": [
+      "Sedekah tidak akan mengurangi kekayaan seorang hamba, justru Allah melipatgandakan keberkahan dan membersihkan harta.",
+      "Harta yang kita nafkahkan di jalan Allah adalah tabungan sejati yang akan menyertai kita di alam barzakh dan padang mahsyar.",
+      "Bantulah fakir miskin, anak yatim, dan saudara yang membutuhkan di sekitar lingkungan kita."
+    ],
+    "qt": {
+      "a": "مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ",
+      "t": "Sedekah tidaklah mengurangi harta kekayaan.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Jadikan sedekah sebagai amalan rutin harian atau mingguan, meski hanya dengan nominal yang sedikit namun konsisten."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k07",
+    "judul": "Sabar & Ridha Menghadapi Ujian Kehidupan",
+    "kat": "Jumat",
+    "poin1": [
+      "Setiap ujian dan cobaan di dunia ini adalah ketetapan takdir Allah untuk menguji kesabaran dan mengangkat derajat hamba-Nya.",
+      "Sabar terbagi menjadi tiga: Sabar dalam ketaatan, sabar dalam menjauhi maksiat, dan sabar menghadapi musibah.",
+      "Orang mukmin sejati berada dalam kebaikan di setiap kondisi: Bersyukur saat lapang dan bersabar saat sempit."
+    ],
+    "qt": {
+      "a": "عَجَبًا لِأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ",
+      "t": "Sungguh menakjubkan urusan orang beriman: semua urusannya baik baginya.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Janganlah berputus asa dari rahmat Allah ketika menghadapi kesulitan; pertolongan Allah sangat dekat bagi hamba yang sabar dan bertawakal."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k08",
+    "judul": "Silaturahmi & Memuliakan Hak Tetangga",
+    "kat": "Jumat",
+    "poin1": [
+      "Menjalin tali silaturahmi adalah kewajiban yang melapangkan rezeki dan memperpanjang umur dalam keberkahan.",
+      "Rasulullah SAW berulang kali menekankan hak tetangga, hingga para sahabat mengira tetangga akan mendapatkan bagian waris.",
+      "Tiga tingkatan tetangga: Tetangga muslim dan kerabat, tetangga muslim bukan kerabat, serta tetangga non-muslim — semuanya berhak diperlakukan secara baik dan adil."
+    ],
+    "qt": {
+      "a": "مَنْ كَانَ يُؤْمِنُ بِاللهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ جَارَهُ",
+      "t": "Barangsiapa beriman kepada Allah dan hari akhir, hendaklah ia memuliakan tetangganya.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Tegur sapa yang ramah, saling berbagi hidangan, dan tidak menimbulkan gangguan adalah kunci kerukunan bermasyarakat."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k09",
+    "judul": "Birrul Walidain: Berbakti kepada Kedua Orang Tua",
+    "kat": "Jumat",
+    "poin1": [
+      "Berbakti kepada ibu dan ayah merupakan salah satu amalan paling utama setelah ibadah sholat.",
+      "Ridha Allah SWT bergantung pada keridhaan kedua orang tua, dan murka Allah bergantung pada kemurkaan keduanya.",
+      "Doa orang tua adalah doa yang maqbul tanpa hijab; jangan pernah berkata kasar atau membantah dengan suara tinggi di hadapan mereka."
+    ],
+    "qt": {
+      "a": "رِضَا الرَّبِّ فِي رِضَا الْوَالِدِ، وَسَخَطُ الرَّبِّ فِي سَخَطِ الْوَالِدِ",
+      "t": "Ridha Allah bergantung pada ridha orang tua, dan murka Allah pada murka orang tua.",
+      "s": "HR. Tirmidzi"
+    },
+    "poin2": [
+      "Bila orang tua telah berpulang ke rahmatullah, teruskan baktimu dengan senantiasa mendoakan ampunan bagi mereka dan menyambung silaturahmi sahabat karib mereka."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k10",
+    "judul": "Kewajiban Menuntut Ilmu Agama & Dunia",
+    "kat": "Jumat",
+    "poin1": [
+      "Menuntut ilmu adalah kewajiban bagi setiap muslim dan muslimah. Ilmu adalah lentera penerang jalan hidup.",
+      "Ilmu fardhu 'ain mencakup aqidah tauhid, tata cara thaharah, sholat, zakat, puasa, dan kehalalan muamalah.",
+      "Orang berilmu yang mengamalkan ilmunya memiliki kedudukan mulia dan dimohonkan ampunan oleh makhluk di langit dan di bumi."
+    ],
+    "qt": {
+      "a": "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ",
+      "t": "Siapa menempuh jalan mencari ilmu, Allah mudahkan baginya jalan menuju surga.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Jadikan majelis ta'lim dan pembacaan kitab-kitab ulama salafus shalih sebagai santapan ruhani mingguan yang menyejukkan hati."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k11",
+    "judul": "Muhasabah Diri & Menyiapkan Bekal Akhirat",
+    "kat": "Jumat",
+    "poin1": [
+      "Hisablah dirimu sebelum engkau dihisab oleh Allah kelak di Yaumil Qiyamah.",
+      "Waktu hidup di dunia adalah modal utama yang tidak bisa diulang kembali; gunakan setiap helaan nafas dalam ketaatan.",
+      "Kematian dapat datang kapan saja tanpa menunggu usia tua atau tanda-tanda sakit."
+    ],
+    "qt": {
+      "a": "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ وَلْتَنْظُرْ نَفْسٌ مَا قَدَّمَتْ لِغَدٍ",
+      "t": "Wahai orang-orang yang beriman, bertakwalah kepada Allah dan hendaklah setiap diri memperhatikan apa yang telah diperbuatnya untuk hari esok (akhirat).",
+      "s": "QS. Al-Hasyr: 18"
+    },
+    "poin2": [
+      "Luangkan waktu setiap malam sebelum tidur untuk beristighfar dan merenungi setiap langkah amal yang telah dijalani."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k12",
+    "judul": "Pintu Taubat yang Terbuka Lebar",
+    "kat": "Jumat",
+    "poin1": [
+      "Rahmat dan ampunan Allah melampaui segala dosa yang pernah diperbuat manusia selagi ia mau bertaubat dengan tulus.",
+      "Syarat taubat nasuha: Menyesali dosa, berhenti seketika, bertekad bulat tidak mengulangi, dan mengembalikan hak orang lain jika terkait kezhaliman sesama.",
+      "Jangan pernah berputus asa dari luasnya ampunan Allah Yang Maha Pengampun."
+    ],
+    "qt": {
+      "a": "اَلتَّائِبُ مِنَ الذَّنْبِ كَمَنْ لَا ذَنْبَ لَهُ",
+      "t": "Orang yang bertaubat dari dosanya seperti orang yang tidak punya dosa.",
+      "s": "HR. Ibnu Majah"
+    },
+    "poin2": [
+      "Perbanyak membaca Sayyidul Istighfar setiap pagi dan petang sebagai ikhtiar pembersih noda dosa."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k13",
+    "judul": "Khutbah Idul Fitri: Menyambut Kemenangan Spiritual",
+    "kat": "Hari Raya",
+    "poin1": [
+      "Idul Fitri adalah momentum kembali ke fitrah kesucian setelah satu bulan penuh digembleng dalam madrasah Ramadhan.",
+      "Kemenangan sejati bukanlah pada pakaian serba baru, melainkan pada bertambahnya ketakwaan dan ibadah kepada Allah Ta'ala.",
+      "Tunaikan zakat fitrah sebelum pelaksanaan sholat Ied untuk menyucikan orang yang berpuasa dan menggembirakan fakir miskin.",
+      "Hadirkan suasana saling memaafkan dan mengubur dendam lama antar sesama kerabat dan saudara."
+    ],
+    "qt": {
+      "a": "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
+      "t": "Siapa berpuasa Ramadhan dengan iman dan pengharapan, diampuni dosa-dosanya yang telah lalu.",
+      "s": "HR. Bukhari & Muslim"
+    },
+    "poin2": [
+      "Pertahankan kebiasaan qiyamul lail, tilawah Al-Qur'an, dan sedekah yang telah terlatih di bulan suci Ramadhan hingga bulan-bulan berikutnya."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k14",
+    "judul": "Khutbah Idul Adha: Keteladanan Nabi Ibrahim & Semangat Berqurban",
+    "kat": "Hari Raya",
+    "poin1": [
+      "Idul Adha menghidupkan kembali keteladanan agung Nabi Ibrahim AS dan keikhlasan Nabi Ismail AS dalam mentaati perintah Allah.",
+      "Ibadah qurban adalah simbol kepasrahan total dan kesiapan mengorbankan ego serta kecintaan berlebihan pada dunia.",
+      "Daging qurban dibagi tiga: Untuk keluarga yang berqurban, untuk hadiah kerabat/tetangga, dan untuk sedekah bagi kaum dhuafa.",
+      "Waktu penyembelihan berlangsung setelah sholat Ied hingga terbenam matahari pada akhir hari Tasyriq (13 Dzulhijjah)."
+    ],
+    "qt": {
+      "a": "مَا عَمِلَ آدَمِيٌّ مِنْ عَمَلِ يَوْمِ النَّحْرِ أَحَبَّ إِلَى اللهِ مِنْ إِهْرَاقِ الدَّمِ",
+      "t": "Tidak ada amalan manusia pada hari raya kurban yang lebih dicintai Allah daripada mengalirkan darah (kurban).",
+      "s": "HR. Tirmidzi"
+    },
+    "poin2": [
+      "Semangat qurban mengajarkan kepedulian sosial yang nyata agar kebahagiaan hari raya dapat dirasakan oleh segenap lapisan umat."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "k15",
+    "judul": "Khutbah Nikah: Membangun Bahtera Rumah Tangga Sakinah",
+    "kat": "Nikah",
+    "poin1": [
+      "Pernikahan adalah ikatan suci (mitsaqan ghalidza) yang menyatukan dua insan dalam bingkai ketaatan kepada syariat.",
+      "Tujuan pernikahan dalam Islam adalah mewujudkan sakinah (ketenangan), mawaddah (kasih sayang), dan rahmah (belas kasih).",
+      "Suami bertindak sebagai pemimpin yang mengayomi dan bertanggung jawab menafkahi; istri bertindak sebagai pendamping shalihah dan penjaga kehormatan rumah tangga."
+    ],
+    "qt": {
+      "a": "يَا مَعْشَرَ الشَّبَابِ مَنِ اسْتَطَاعَ مِنْكُمُ الْبَاءَةَ فَلْيَتَزَوَّجْ",
+      "t": "Wahai para pemuda, siapa yang mampu menikah, hendaklah ia menikah karena itu lebih menundukkan pandangan dan menjaga kehormatan.",
+      "s": "HR. Bukhari & Muslim"
+    },
+    "poin2": [
+      "Kunci keharmonisan rumah tangga adalah komunikasi yang santun, saling memaafkan kekhilafan, dan mengedepankan musyawarah dalam menyelesaikan persoalan."
+    ],
+    "a1": "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.",
+    "a2": "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "art01",
+    "judul": "Tazkiyatun Nafs: Jalan Menyucikan Hati Menuju Ridha Ilahi",
+    "kat": "Artikel",
+    "poin1": [
+      "Tazkiyatun Nafs adalah proses pembersihan jiwa dari berbagai penyakit batiniah seperti ujub, riya, hasad, takabbur, dan cinta dunia berlebihan.",
+      "Imam Al-Ghazali dalam Ihya Ulumiddin mengibaratkan hati sebagai cermin; dosa-dosa adalah debu jelaga yang mengotorinya, dan dzikrullah adalah pengilap yang mengembalikannya bening berkilau.",
+      "Tiga tingkatan jiwa manusia menurut Al-Qur'an: Nafsul Ammarah bis-Su' (jiwa yang condong kepada keburukan), Nafsul Lawwamah (jiwa yang menyesali kekeliruan), dan Nafsul Muthma'innah (jiwa yang tenang dalam ketaatan).",
+      "Tahapan tazkiyah: Takhalli (mengosongkan diri dari maksiat), Tahalli (menghiasi diri dengan amal shalih), dan Tajalli (merasakan kedekatan nur ilahi)."
+    ],
+    "qt": {
+      "a": "قَدْ أَفْلَحَ مَنْ زَكَّاهَا ۝ وَقَدْ خَابَ مَنْ دَسَّاهَا",
+      "t": "Sungguh beruntung orang yang menyucikan jiwanya, dan sungguh merugi orang yang mengotorinya.",
+      "s": "QS. Asy-Syams: 9-10"
+    },
+    "poin2": [
+      "Istiqamah dalam wirid, menundukkan syahwat dengan puasa sunnah, dan bergaul dengan para ulama serta orang shalih adalah benteng kokoh tazkiyatun nafs."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي طَهَّرَ قُلُوبَ أَوْلِيَائِهِ، وَأَنَارَ بَصَائِرَ أَصْفِيَائِهِ.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى سَيِّدِنَا مُحَمَّدٍ طَبِيبِ الْقُلُوبِ وَدَوَائِهَا، وَعَلَى آلِهِ وَصَحْبِهِ أَجْمَعِينَ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "art02",
+    "judul": "Adab & Fiqih Muamalah Syariah di Era Ekonomi Digital",
+    "kat": "Artikel",
+    "poin1": [
+      "Muamalah syariah berpijak pada prinsip keadilan, kejujuran, keridhaan kedua belah pihak (antaradhin), dan larangan kezhaliman.",
+      "Prinsip dasar muamalah: Segala bentuk transaksi pada asalnya adalah mubah (boleh) kecuali yang terdapat dalil tegas mengharamkannya.",
+      "Unsur yang diharamkan dalam muamalah: Riba (tambahan bunga batil), Gharar (ketidakpastian/penipuan), Maysir (spekulasi perjudian), serta komoditas haram.",
+      "Di era digital, transaksi online, e-wallet, dan marketplace tetap wajib mematuhi kejelasan akad, transparansi deskripsi barang, dan kehalalan perputaran dana."
+    ],
+    "qt": {
+      "a": "يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تَأْكُلُوا أَمْوَالَكُمْ بَيْنَكُمْ بِالْبَاطِلِ إِلَّا أَنْ تَكُونَ تِجَارَةً عَنْ تَرَاضٍ مِنْكُمْ",
+      "t": "Wahai orang-orang yang beriman, janganlah kamu saling memakan harta sesamamu dengan jalan yang batil, kecuali dengan jalan perniagaan yang berlaku dengan suka sama suka di antara kamu.",
+      "s": "QS. An-Nisa: 29"
+    },
+    "poin2": [
+      "Keberkahan harta tidak ditentukan oleh banyaknya nominal semata, melainkan dari kehalalan sumber dan cara mendapatkannya."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي أَحَلَّ الْبَيْعَ وَحَرَّمَ الرِّبَا.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى نَبِيِّنَا مُحَمَّدٍ الصَّادِقِ الْأَمِينِ، وَعَلَى آلِهِ وَصَحْبِهِ أَجْمَعِينَ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "art03",
+    "judul": "Menjaga Sanad Keilmuan & Tradisi Ulama Aswaja",
+    "kat": "Artikel",
+    "poin1": [
+      "Tradisi sanad (mata rantai keilmuan yang bersambung hingga Rasulullah SAW) merupakan keistimewaan agung yang menjaga kemurnian ajaran Islam dari distorsi.",
+      "Abdullah bin Mubarak RA menyatakan: 'Isnad adalah bagian dari agama, sekiranya bukan karena isnad, niscaya setiap orang akan berbicara menurut hawa nafsunya semata.'",
+      "Ahlussunnah wal Jama'ah (Aswaja) merawat transmisi keilmuan melalui talaqqi (berguru langsung) kepada para ulama yang bersanad mu'tabar dalam Aqidah (Asy'ariyah & Maturidiyah), Fiqih (Empat Madzhab), dan Tasawuf (Imam Al-Ghazali).",
+      "Membaca buku atau mencari rujukan online harus diimbangi dengan bimbingan guru yang faqih agar terhindar dari pemahaman tekstual yang kaku atau radikal."
+    ],
+    "qt": {
+      "a": "إِنَّ هَذَا الْعِلْمَ دِينٌ، فَانْظُرُوا عَمَّنْ تَأْخُذُونَ دِينَكُمْ",
+      "t": "Imam Muhammad bin Sirin berkata: 'Sesungguhnya ilmu ini adalah agama, maka perhatikanlah dari siapa kalian mengambil urusan agama kalian.'",
+      "s": "Atsar Riwayat Imam Muslim"
+    },
+    "poin2": [
+      "Hormatilah para guru dan kyai yang telah mendedikasikan hidupnya menjaga sanad Al-Qur'an dan hadits; keberkahan ilmu lahir dari ketakziman murid kepada gurunya."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي جَعَلَ الْعُلَمَاءَ وَرَثَةَ الْأَنْبِيَاءِ.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى سَيِّدِنَا مُحَمَّدٍ إِمَامِ الْمُتَّقِينَ وَمُعَلِّمِ الْعَالَمِينَ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "art04",
+    "judul": "Tafsir Tematik: Urgensi Ukhuwah & Menghindari Perpecahan",
+    "kat": "Artikel",
+    "poin1": [
+      "Persaudaraan sesama mukmin (Ukhuwah Islamiyah) diikat oleh aqidah tauhid yang lebih kokoh daripada ikatan nasab atau kedaerahan.",
+      "Perbedaan pandangan pada masalah furu'iyyah (cabang fiqih) adalah keniscayaan dan rahmat intelektual, selama tidak keluar dari ijma' ulama mu'tabar.",
+      "Bahaya perpecahan, saling menyesatkan, dan saling mencela hanya akan melemahkan marwah dan kekuatan umat Islam di hadapan musuh-musuh keadilan."
+    ],
+    "qt": {
+      "a": "إِنَّمَا الْمُؤْمِنُونَ إِخْوَةٌ فَأَصْلِحُوا بَيْنَ أَخَوَيْكُمْ وَاتَّقُوا اللهَ لَعَلَّكُمْ تُرْحَمُونَ",
+      "t": "Orang-orang beriman itu sesungguhnya bersaudara. Sebab itu damaikanlah (perbaikilah hubungan) antara kedua saudaramu itu dan bertakwalah kepada Allah, supaya kamu mendapat rahmat.",
+      "s": "QS. Al-Hujurat: 10"
+    },
+    "poin2": [
+      "Tegakkan etika ikhtilaf (berbeda pendapat): Santun dalam berdialog, mengedepankan husnudzan, dan senantiasa berorientasi pada maslahat umat yang lebih besar."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي أَلَّفَ بَيْنَ قُلُوبِ الْمُؤْمِنِينَ فَأَصْبَحُوا بِنِعْمَتِهِ إِخْوَانًا.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى خَاتَمِ النَّبِيِّينَ الدَّاعِي إِلَى صِرَاطِهِ الْمُسْتَقِيمِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "mat01",
+    "judul": "Panduan Fiqih Thaharah (Wudhu, Tayammum, Mandi Wajib)",
+    "kat": "Materi",
+    "poin1": [
+      "Thaharah (bersuci) adalah syarat sah shalat dan kunci ibadah seorang hamba.",
+      "Rukun Wudhu menurut Madzhab Syafi'i ada 6: 1) Niat saat membasuh wajah, 2) Membasuh seluruh wajah, 3) Membasuh kedua tangan sampai siku, 4) Mengusap sebagian kepala, 5) Membasuh kedua kaki sampai mata kaki, 6) Tertib berurutan.",
+      "Fardhu Mandi Wajib (Janabah): 1) Niat menghilangkan hadats besar, 2) Meratakan air suci ke seluruh permukaan kulit dan pangkal rambut tanpa tersisa.",
+      "Tayammum diperbolehkan saat tidak ada air atau terdapat uzur sakit yang membahayakan jika terkena air, menggunakan debu suci dengan 2 kali usapan (wajah dan kedua tangan)."
+    ],
+    "qt": {
+      "a": "يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا قُمْتُمْ إِلَى الصَّلَاةِ فَاغْسِلُوا وُجُوهَكُمْ وَأَيْدِيَكُمْ إِلَى الْمَرَافِقِ",
+      "t": "Wahai orang-orang yang beriman, apabila kamu hendak mengerjakan sholat, maka basuhlah mukamu dan tanganmu sampai dengan siku...",
+      "s": "QS. Al-Maidah: 6"
+    },
+    "poin2": [
+      "Hindari sikap was-was dalam bersuci; cukupkan pada basuhan yang yakin dan tidak berlebih-lebihan dalam menggunakan air."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي جَعَلَ الْمَاءَ طَهُورًا وَالْإِسْلَامَ نُورًا.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى مَنْ قَالَ: الطُّهُورُ شَطْرُ الْإِيمَانِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "mat02",
+    "judul": "Panduan Praktis Sholat Fardhu & Sholat Sunnah Rawatib",
+    "kat": "Materi",
+    "poin1": [
+      "Sholat fardhu 5 waktu adalah kewajiban yang tidak gugur selama akal masih berfungsi.",
+      "Rukun Sholat ada 17 (menurut Madzhab Syafi'i): Niat, Takbiratul Ihram, Berdiri bagi yang mampu, Membaca Al-Fatihah, Ruku', Thuma'ninah dalam ruku', I'tidal, Thuma'ninah dalam i'tidal, Sujud dua kali, Thuma'ninah dalam sujud, Duduk di antara dua sujud, Thuma'ninah saat duduk, Duduk Tasyahhud Akhir, Membaca Tasyahhud Akhir, Membaca Shalawat atas Nabi SAW pada tasyahhud akhir, Salam pertama, dan Tertib.",
+      "Sunnah Rawatib Mu'akkadah: 2 rakaat sebelum Subuh, 2 atau 4 rakaat sebelum Zuhur, 2 rakaat sesudah Zuhur, 2 rakaat sesudah Maghrib, dan 2 rakaat sesudah Isya.",
+      "Sholat Sunnah Tahajjud, Witir, dan Dhuha menjadi amalan pelengkap yang mengangkat derajat hamba di hadapan Allah."
+    ],
+    "qt": {
+      "a": "مَنْ صَلَّى فِي يَوْمٍ وَلَيْلَةٍ ثِنْتَيْ عَشْرَةَ رَكْعَةً بُنِيَ لَهُ بَيْتٌ فِي الْجَنَّةِ",
+      "t": "Barangsiapa mengerjakan shalat (sunnah) dua belas rakaat dalam sehari semalam, niscaya dibangunkan baginya sebuah rumah di surga.",
+      "s": "HR. Muslim"
+    },
+    "poin2": [
+      "Koreksi bacaan Al-Fatihah dan thuma'ninah secara berkala di hadapan guru agar sholat benar-benar sah dan menenangkan jiwa."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الَّذِي فَرَضَ عَلَيْنَا الصَّلَوَاتِ الْخَمْسَ.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى نَبِيِّنَا مُحَمَّدٍ خَيْرِ مَنْ صَلَّى وَصَامَ وَتَهَجَّدَ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "mat03",
+    "judul": "Panduan Zakat Fitrah & Zakat Mal Sesuai Syariat",
+    "kat": "Materi",
+    "poin1": [
+      "Zakat merupakan rukun Islam ketiga yang menjadi instrumen pembersih harta dan pilar keadilan sosial.",
+      "Zakat Fitrah: Wajib bagi setiap jiwa muslim yang mendapati tenggelamnya matahari akhir Ramadhan dan memiliki kelebihan makanan untuk malam dan hari raya. Kadarnya 1 sha' (setara ±2,7 - 3 kg beras/makanan pokok).",
+      "Zakat Mal (Harta): Wajib dikeluarkan apabila mencapai Nishab (senilai 85 gram emas murni) dan telah berlalu masa Haul (dimiliki penuh selama 1 tahun hijriyah). Kadarnya adalah 2,5%.",
+      "8 Golongan Penerima Zakat (Mustahiq): Fakir, Miskin, Amil, Muallaf, Riqab (pembebasan hamba), Gharimin (orang terlilit hutang), Sabilillah (pejuang agama), dan Ibnu Sabil (musafir)."
+    ],
+    "qt": {
+      "a": "خُذْ مِنْ أَمْوَالِهِمْ صَدَقَةً تُطَهِّرُهُمْ وَتُزَكِّيهِمْ بِهَا",
+      "t": "Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan menyucikan mereka.",
+      "s": "QS. At-Taubah: 103"
+    },
+    "poin2": [
+      "Salurkan zakat melalui amil yang terpercaya agar pendistribusian tepat sasaran dan berdaya guna menuntaskan kemiskinan."
+    ],
+    "a1": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي جَعَلَ الزَّكَاةَ نَمَاءً لِلْأَمْوَالِ وَطَهَارَةً لِلنُّفُوسِ.",
+    "a2": "وَالصَّلَاةُ وَالسَّلَامُ عَلَى حَبِيبِنَا الْمُصْطَفَى وَعَلَى آلِهِ وَصَحْبِهِ أَهْلِ الْبِرِّ وَالْوَفَاءِ.",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "doa01",
+    "judul": "Sayyidul Istighfar (Induk Segala Istighfar)",
+    "kat": "Doa",
+    "poin1": [
+      "Sayyidul Istighfar adalah lafadz istighfar paling agung yang diajarkan langsung oleh Baginda Rasulullah SAW.",
+      "Barangsiapa membacanya di pagi hari dengan penuh keyakinan lalu meninggal sebelum petang, ia termasuk penghuni surga; dan barangsiapa membacanya di petang hari lalu meninggal sebelum pagi, ia termasuk penghuni surga."
+    ],
+    "qt": {
+      "a": "اَللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+      "t": "Ya Allah, Engkau adalah Tuhanku, tidak ada Tuhan selain Engkau. Engkau yang menciptakanku dan aku adalah hamba-Mu. Aku memegang teguh perjanjian dan janji-Mu semampuku. Aku berlindung kepada-Mu dari keburukan apa yang telah kuperbuat. Aku mengakui segala nikmat-Mu atasku, dan aku mengakui dosaku kepada-Mu, maka ampunilah aku, sesungguhnya tiada yang dapat mengampuni dosa selain Engkau.",
+      "s": "HR. Bukhari No. 6306"
+    },
+    "poin2": [
+      "Latin: Allahumma anta rabbii laa ilaaha illaa anta, khalaqtanii wa anaa 'abduka, wa anaa 'alaa 'ahdika wa wa'dika mastatha'tu, a'uudzu bika min syarri maa shana'tu, abuu-u laka bini'matika 'alayya, wa abuu-u bidzanbii faghfir lii fa-innahu laa yaghfirudz-dzunuuba illaa anta.",
+      "Amalkan secara istiqamah setiap selesai sholat Subuh dan sesudah sholat Ashar atau Maghrib."
+    ],
+    "a1": "اَللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ...",
+    "a2": "أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي...",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "doa02",
+    "judul": "Doa Sapu Jagad: Keselamatan Dunia & Akhirat",
+    "kat": "Doa",
+    "poin1": [
+      "Doa yang paling sering dibaca oleh Baginda Rasulullah SAW karena merangkum seluruh kebaikan di dunia dan kebaikan di akhirat.",
+      "Kebaikan dunia mencakup rezeki berkah, kesehatan afiat, keluarga sakinah, dan ilmu bermanfaat; kebaikan akhirat mencakup surga, kemudahan hisab, dan perlindungan dari siksa neraka."
+    ],
+    "qt": {
+      "a": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+      "t": "Wahai Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat dan peliharalah kami dari siksa neraka.",
+      "s": "QS. Al-Baqarah: 201 & HR. Bukhari Muslim"
+    },
+    "poin2": [
+      "Latin: Rabbanaa aatinaa fid-dunyaa hasanah, wa fil aakhirati hasanah, wa qinaa 'adzaaban-naar.",
+      "Bacalah sebagai doa penutup di setiap sholat, khutbah, thawaf, dan munajat harian."
+    ],
+    "a1": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+    "a2": "وَصَلَّى اللهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ وَسَلَّمَ",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "doa03",
+    "judul": "Doa Perlindungan dari Kesedihan, Kemalasan & Lilitan Hutang",
+    "kat": "Doa",
+    "poin1": [
+      "Doa mustajab yang diajarkan Rasulullah SAW kepada sahabat Abu Umamah RA yang tengah dirundung kegelisahan dan lilitan hutang.",
+      "Doa ini membentengi diri dari kelemahan mental, kemalasan, sifat pengecut, kekikiran, serta penindasan manusia."
+    ],
+    "qt": {
+      "a": "اَللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
+      "t": "Ya Allah, sesungguhnya aku berlindung kepada-Mu dari rasa gundah dan sedih, aku berlindung kepada-Mu dari rasa lemah dan malas, aku berlindung kepada-Mu dari sifat pengecut dan kikir, dan aku berlindung kepada-Mu dari lilitan hutang serta kesewenang-wenangan orang lain.",
+      "s": "HR. Abu Dawud No. 1555"
+    },
+    "poin2": [
+      "Latin: Allahumma innii a'uudzu bika minal hammi wal hazan, wa a'uudzu bika minal 'ajzi wal kasal, wa a'uudzu bika minal jubni wal bukhl, wa a'uudzu bika min ghalabatid-daini wa qahrir-rijaal.",
+      "Bacalah sebanyak 3 kali setiap pagi dan petang hari."
+    ],
+    "a1": "اَللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ...",
+    "a2": "وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ...",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "doa04",
+    "judul": "Dzikir & Wirid Lengkap Ba'da Sholat Fardhu",
+    "kat": "Doa",
+    "poin1": [
+      "Rangkaian wirid ba'da sholat sesuai sunnah mu'akkadah yang senantiasa diamalkan para ulama salafus shalih.",
+      "1. Istighfar 3x: Astaghfirullahal 'Adzim alladzi laa ilaaha illaa huwal hayyul qayyumu wa atuubu ilaih.",
+      "2. Tahlil: Laa ilaaha illallahu wahdahu laa syariikalah, lahul mulku wa lahul hamdu yuhyii wa yumiitu wa huwa 'alaa kulli syai-in qadiir.",
+      "3. Doa Keselamatan: Allahumma antas-salaam wa minkas-salaam tabaarakta yaa dzal jalaali wal ikraam.",
+      "4. Membaca Ayat Kursi, Surat Al-Ikhlas, Al-Falaq, dan An-Nas.",
+      "5. Membaca Tasbih 33x (Subhanallah), Tahmid 33x (Alhamdulillah), Takbir 33x (Allahu Akbar), digenapi 100 dengan Tahlil."
+    ],
+    "qt": {
+      "a": "مَنْ سَبَّحَ اللهَ فِي دُبُرِ كُلِّ صَلَاةٍ ثَلَاثًا وَثَلَاثِينَ، وَحَمِدَ اللهَ ثَلَاثًا وَثَلَاثِينَ، وَكَبَّرَ اللهَ ثَلَاثًا وَثَلَاثِينَ... غُفِرَتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ",
+      "t": "Barangsiapa bertasbih kepada Allah selesai sholat 33x, bertahmid 33x, dan bertakbir 33x lalu menggenapkannya menjadi seratus... diampuni kesalahan-kesalahannya walaupun sebanyak buih di lautan.",
+      "s": "HR. Muslim No. 597"
+    },
+    "poin2": [
+      "Jangan terburu-buru beranjak setelah salam; nikmatilah waktu hening berdzikir untuk menyerap ketenangan ilahi ke dalam sanubari."
+    ],
+    "a1": "أَسْتَغْفِرُ اللهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
+    "a2": "سُبْحَانَ اللهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللهُ، وَاللهُ أَكْبَرُ",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "doa05",
+    "judul": "Doa untuk Kedua Orang Tua & Memohon Keturunan Shalih",
+    "kat": "Doa",
+    "poin1": [
+      "Mendoakan orang tua adalah bentuk bakti abadi yang terus mengalir pahalanya.",
+      "Permohonan agar Allah menganugerahkan pasangan dan keturunan yang menjadi penyejuk pandangan hati (qurrata a'yun) serta teladan bagi orang-orang yang bertakwa."
+    ],
+    "qt": {
+      "a": "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ ۝ رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+      "t": "Wahai Tuhan kami, beri ampunlah aku dan kedua ibu bapaku dan sekalian orang-orang mukmin pada hari terjadinya hisab. Dan anugerahkanlah kepada kami pasangan dan keturunan sebagai penyejuk hati kami, dan jadikanlah kami imam bagi orang-orang yang bertakwa.",
+      "s": "QS. Ibrahim: 41 & QS. Al-Furqan: 74"
+    },
+    "poin2": [
+      "Latin: Rabbighfir lii wa liwaalidayya warhamhumaa kamaa rabbayaanii shaghiiraa. Rabbanaa hab lanaa min azwaajinaa wa dzurriyyaatinaa qurrata a'yunin waj'alnaa lil muttaqiina imaamaa."
+    ],
+    "a1": "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+    "a2": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ...",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  },
+  {
+    "id": "doa06",
+    "judul": "Doa Menuntut Ilmu & Kelapangan Hati",
+    "kat": "Doa",
+    "poin1": [
+      "Doa Nabi Musa AS saat memohon kemudahan lisan dan kelapangan dada dalam berdakwah.",
+      "Permohonan agar Allah menambahkan ilmu yang bermanfaat dan memberikan kepahaman dalam urusan agama."
+    ],
+    "qt": {
+      "a": "رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي ۝ يَفْقَهُوا قَوْلِي ۝ رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا",
+      "t": "Ya Tuhanku, lapangkanlah untukku dadaku, dan mudahkanlah untukku urusanku, dan lepaskanlah kekakuan dari lidahku, supaya mereka mengerti perkataanku. Ya Tuhanku, tambahkanlah kepadaku ilmu pengetahuan dan karuniakanlah kepadaku pemahaman.",
+      "s": "QS. Thaha: 25-28 & Doa Para Ulama"
+    },
+    "poin2": [
+      "Latin: Rabbisy-rah lii shadrii, wa yassir lii amrii, wahlul 'uqdatan min lisaanii, yafqahuu qawlii. Rabbi zidnii 'ilman warzuqnii fahman.",
+      "Amalkan setiap hendak belajar, mengajar, berkhutbah, atau menghadiri majelis ilmu."
+    ],
+    "a1": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي...",
+    "a2": "رَبِّ زِدْنِي عِلْمًا نَافِعًا وَارْزُقْنِي فَهْمًا...",
+    "du": "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ."
+  }
+];
+const KB = [
+  {
+    "k": [
+      "rukun",
+      "syarat khutbah"
+    ],
+    "j": "<span class=\"bot-highlight\">Rukun khutbah Jumat</span> menurut Madzhab Syafi'i ada 5 yang wajib dipenuhi:<br>1. Membaca Hamdalah pada dua khutbah.<br>2. Bershalawat kepada Nabi Muhammad SAW pada dua khutbah.<br>3. Wasiat Takwa kepada jamaah pada dua khutbah.<br>4. Membaca 1 ayat Al-Qur'an pada salah satu khutbah.<br>5. Mendoakan ampunan bagi kaum mukminin di khutbah kedua.<br><br>Syarat sah: Masuk waktu Zuhur, khatib berdiri jika mampu, thuma'ninah saat duduk di antara dua khutbah, menutup aurat, suci dari hadats dan najis, dan didengar sekurang-kurangnya 40 jamaah."
+  },
+  {
+    "k": [
+      "hukum jumat",
+      "ketinggalan jumat",
+      "masbuq"
+    ],
+    "j": "Shalat Jumat hukumnya <span class=\"bot-highlight\">Fardhu 'Ain</span> bagi laki-laki muslim baligh yang mukim. Jika tertinggal shalat Jumat (tidak sempat ruku bersama imam di rakaat kedua), maka wajib menyempurnakan shalatnya sebagai <span class=\"arab-inline\">Zuhur empat rakaat</span>."
+  },
+  {
+    "k": [
+      "zakat fitrah",
+      "fitrah",
+      "sha"
+    ],
+    "j": "<span class=\"bot-highlight\">Zakat Fitrah</span> wajib bagi setiap muslim yang mendapati tenggelamnya matahari akhir Ramadhan. Takarannya adalah 1 sha' makanan pokok (di Indonesia setara ±2,7 hingga 3 kg beras). Waktu paling utama adalah sebelum shalat Idul Fitri."
+  },
+  {
+    "k": [
+      "zakat mal",
+      "nisab emas",
+      "haul"
+    ],
+    "j": "<span class=\"bot-highlight\">Zakat Mal</span> wajib dikeluarkan bila mencapai Nishab (senilai 85 gram emas) dan telah dimiliki selama 1 tahun penuh (Haul). Kadarnya adalah <span class=\"bot-highlight\">2,5%</span> dari total harta simpanan/perniagaan."
+  },
+  {
+    "k": [
+      "istighfar",
+      "sayyidul istighfar"
+    ],
+    "j": "<span class=\"bot-highlight\">Sayyidul Istighfar</span> adalah raja/induk segala permohonan ampunan:<br><span class=\"arab-inline\">اَللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ...</span><br>Rasulullah SAW menjamin bahwa siapa yang membacanya dengan yakin di pagi hari lalu wafat, maka ia termasuk penghuni surga (HR. Bukhari)."
+  },
+  {
+    "k": [
+      "thaharah",
+      "wudhu",
+      "rukun wudhu"
+    ],
+    "j": "<span class=\"bot-highlight\">Rukun Wudhu</span> Madzhab Syafi'i ada 6:<br>1. Niat saat air pertama kali menyentuh wajah.<br>2. Membasuh seluruh muka.<br>3. Membasuh kedua tangan sampai siku.<br>4. Mengusap sebagian rambut/kulit kepala.<br>5. Membasuh kedua kaki sampai mata kaki.<br>6. Tertib (berurutan)."
+  },
+  {
+    "k": [
+      "sholat",
+      "rukun sholat"
+    ],
+    "j": "<span class=\"bot-highlight\">Rukun Sholat</span> terdiri dari 17 rukun (qauli, fi'li, qolbi): Niat, Takbiratul Ihram, Berdiri, Membaca Al-Fatihah, Ruku', Thuma'ninah, I'tidal, Sujud, Duduk antara dua sujud, Tasyahhud Akhir, Shalawat, Salam pertama, dan Tertib."
+  },
+  {
+    "k": [
+      "tazkiyatun nafs",
+      "hati",
+      "ikhlas"
+    ],
+    "j": "<span class=\"bot-highlight\">Tazkiyatun Nafs</span> adalah proses menyucikan hati melalui Takhalli (mengosongkan dari sifat tercela seperti hasad, ujub, riya), Tahalli (menghiasi dengan taat, dzikir, tawadhu), dan Tajalli (terangnya nur makrifatullah)."
+  },
+  {
+    "k": [
+      "programmer",
+      "hartadi",
+      "pembuat",
+      "developer"
+    ],
+    "j": "<span class=\"bot-highlight\">Aplikasi Mimbar Digital Gold Pro v3.0</span> dikembangkan oleh <span class=\"bot-highlight\">Ir. Mohamad Hartadi (Adi)</span> — Civil Engineer & AI System Architect.<br>Kontak resmi:<br>• Facebook: <a href=\"https://www.facebook.com/hartadi.kds\" target=\"_blank\" style=\"color:var(--cyan)\">facebook.com/hartadi.kds</a><br>• Blog: <a href=\"https://newbieonline7.blogspot.com\" target=\"_blank\" style=\"color:var(--gold)\">newbieonline7.blogspot.com</a><br>• WhatsApp: <a href=\"https://wa.me/082231036047\" target=\"_blank\" style=\"color:var(--grn)\">082231036047</a>"
+  },
+  {
+    "k": [
+      "doa",
+      "sapu jagad",
+      "keselamatan"
+    ],
+    "j": "Doa keselamatan dunia & akhirat (Sapu Jagad):<br><span class=\"arab-inline\">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</span><br>(QS. Al-Baqarah: 201)."
+  }
+];
+const MUTIARA_HIKMAH = [
+  {
+    "t": "Ayat Al-Qur'an",
+    "c": "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ — 'Ingatlah kepada-Ku, niscaya Aku ingat kepadamu; dan bersyukurlah kepada-Ku, janganlah kamu mengingkari nikmat-Ku.' (QS. Al-Baqarah: 152)"
+  },
+  {
+    "t": "Sabda Rasulullah SAW",
+    "c": "'Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya.' (HR. Thabrani)"
+  },
+  {
+    "t": "Kalam Hujjatul Islam",
+    "c": "'Hati manusia ibarat cermin; jika dipenuhi debu dosa, ia tak mampu memantulkan cahaya kebenaran ilahi.' (Imam Al-Ghazali)"
+  },
+  {
+    "t": "Nasihat Imam Syafi'i",
+    "c": "'Siapa yang menghendaki kebahagiaan dunia harus dengan ilmu, dan siapa yang menghendaki kebahagiaan akhirat juga harus dengan ilmu.'"
+  },
+  {
+    "t": "Doa Mustajab",
+    "c": "'Wahai Tuhan kami, anugerahkanlah kepada kami kebaikan di dunia dan kebaikan di akhirat serta peliharalah kami dari siksa neraka.'"
+  },
+  {
+    "t": "Kalam Hikmah",
+    "c": "'Amal tanpa keikhlasan bagaikan musafir yang memenuhi kantongnya dengan pasir; melelahkan tanpa memberi manfaat makan.'"
+  },
+  {
+    "t": "Sayyidul Istighfar",
+    "c": "'Tiada yang dapat mengampuni dosa selain Engkau, maka ampunilah dosaku yang nyata maupun yang tersembunyi.'"
+  }
+];
+
+let curQuoteIdx = 0;
+function updateDashboardQuote(){
+  const q = MUTIARA_HIKMAH[curQuoteIdx];
+  if($('quoteWidgetText')) $('quoteWidgetText').textContent = '"' + q.c + '"';
+  if($('ss-type')) $('ss-type').textContent = q.t;
+  if($('ss-text')) $('ss-text').textContent = '"' + q.c + '"';
+}
+function navQuote(dir){
+  curQuoteIdx = (curQuoteIdx + dir + MUTIARA_HIKMAH.length) % MUTIARA_HIKMAH.length;
+  updateDashboardQuote();
+}
+function toggleFloatingQuotes(){
+  $('floatingQuoteWidget').classList.toggle('show');
+  updateDashboardQuote();
+}
+
+// ================= CLOCK & DATE LOGIC =================
+function updateClocks(){
+  const now = new Date();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  
+  const dayStr = days[now.getDay()] + ', ' + String(now.getDate()).padStart(2,'0') + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  const timeStr = [now.getHours(), now.getMinutes(), now.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+
+  if($('dashboard-date')) $('dashboard-date').textContent = dayStr;
+  if($('dashboard-time')) $('dashboard-time').textContent = timeStr;
+  if($('loader-date')) $('loader-date').textContent = dayStr;
+  if($('loader-time')) $('loader-time').textContent = timeStr;
+  if($('chat-clock')) $('chat-clock').textContent = timeStr + ' WIB';
+  if($('ss-time')) $('ss-time').textContent = timeStr;
+  if($('ss-date')) $('ss-date').textContent = dayStr + ' | WAKTU LOKAL';
+}
+setInterval(updateClocks, 1000);
+
+// ================= TABS & FILTER CHIPS =================
+function setTab(t){
+  $('panelList').classList.toggle('hide', t==='chat' && window.innerWidth<=960);
+  $('panelChat').classList.toggle('act', t==='chat');
+  $('tabL').classList.toggle('act', t==='list');
+  $('tabC').classList.toggle('act', t==='chat');
+  if(window.innerWidth>960){ $('panelList').classList.remove('hide'); $('panelChat').classList.add('act'); }
+}
+
+function kats(){
+  const u = getUser(), all = allItems();
+  return [
+    ['semua','Semua Koleksi',all.length,''],
+    ['favorit','Favorit ★',getFav().length,''],
+    ['Jumat','Khutbah Jumat',all.filter(x=>x.kat==='Jumat').length,''],
+    ['Hari Raya','Hari Raya',all.filter(x=>x.kat==='Hari Raya').length,''],
+    ['Nikah','Khutbah Nikah',all.filter(x=>x.kat==='Nikah').length,''],
+    ['Fiqih','Fiqih Khutbah',all.filter(x=>x.kat==='Fiqih').length,''],
+    ['Artikel','Artikel Islami',all.filter(x=>x.kat==='Artikel').length,'chip-art'],
+    ['Materi','Materi Ibadah',all.filter(x=>x.kat==='Materi').length,''],
+    ['Doa','Doa & Dzikir',all.filter(x=>x.kat==='Doa').length,'chip-doa'],
+    ['milik','Milik Saya',u.length,'']
+  ];
+}
+
+function renderChips(){
+  $('chips').innerHTML = kats().map(k => {
+    const isAct = activeKat === k[0];
+    return `<div class="chip ${k[3]} ${isAct?'act':''}" onclick="setKat('${k[0]}')">${k[1]} (${k[2]})</div>`;
+  }).join('');
+}
+
+function setKat(k){ activeKat=k; renderChips(); renderList(); }
+
+function renderList(){
+  const q = ($('search').value||'').trim().toLowerCase();
+  const favs = getFav(), user = getUser().map(x=>x.id);
+  
+  let items = allItems().filter(x=>{
+    if(activeKat==='favorit' && !favs.includes(x.id)) return false;
+    if(activeKat==='milik' && !user.includes(x.id)) return false;
+    if(['Jumat','Hari Raya','Nikah','Fiqih','Artikel','Materi','Doa'].includes(activeKat) && x.kat !== activeKat) return false;
+    if(q && !(x.judul + ' ' + x.kat + ' ' + (x.poin1||[]).join(' ')).toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  $('khutbah-container').innerHTML = items.length ? items.map(x=>{
+    const on = favs.includes(x.id);
+    let cardClass = '';
+    if(x.kat==='Doa') cardClass = 'card-doa';
+    else if(x.kat==='Artikel') cardClass = 'card-art';
+
+    return `<div class="khutbah-card ${cardClass}" onclick="openReader('${x.id}')">
+      <button class="star ${on?'on':''}" title="Bookmark" onclick="event.stopPropagation();toggleFav('${x.id}')">
+        <i class="fa-${on?'solid':'regular'} fa-star"></i>
+      </button>
+      <div>
+        <h3>${esc(x.judul)}</h3>
+        <div class="meta">
+          <i class="fas fa-tag" style="color:var(--gold)"></i> <b>${x.kat}</b> · ${(x.poin1?x.poin1.length:0)} poin 
+          ${user.includes(x.id)?`· <span style="color:#34d399">Naskah Anda</span>`:`· Aswaja Syafi'i`}
+        </div>
+      </div>
+      <div>
+        <span class="tagz"><i class="fas fa-book-open"></i> Buka ${x.kat==='Doa'?'Doa':(x.kat==='Artikel'?'Artikel':'Naskah')}</span>
+      </div>
+      ${user.includes(x.id)?`
+      <div class="edt" onclick="event.stopPropagation()">
+        <button title="Edit" onclick="openEditor('${x.id}')"><i class="fas fa-pen"></i></button>
+        <button class="delm" title="Hapus" onclick="delItem('${x.id}')"><i class="fas fa-trash"></i></button>
+      </div>`:''}
+    </div>`;
+  }).join('') :
+  `<div class="empty">
+    <i class="fas fa-scroll" style="font-size:32px;opacity:.4;margin-bottom:12px"></i><br>
+    ${activeKat==='favorit'?'Belum ada bookmark tersimpan. Tekan ikon bintang pada kartu untuk menjadikannya favorit.':'Tidak ada naskah atau artikel yang sesuai kriteria pencarian.'}
+  </div>`;
+
+  $('collSub').textContent = `${allItems().length} Total Koleksi Dakwah &amp; Doa · ${getFav().length} Bookmark Tersimpan`;
+}
+
+function toggleFav(id){
+  const f = getFav(), i = f.indexOf(id);
+  if(i>=0){ f.splice(i,1); toast('Bookmark dihapus'); }
+  else { f.push(id); toast('Naskah / Doa disimpan ke Favorit ★'); }
+  setFav(f);
+}
+
+// ================= READER MODAL =================
+function openReader(id){
+  const x = findItem(id); if(!x) return;
+  readId = id;
+  const favs = getFav(), on = favs.includes(id);
+
+  $('mTitleR').innerHTML = `<i class="fas fa-scroll" style="color:var(--gold)"></i> ${esc(x.judul)}`;
+  
+  let contentHtml = `<div class="rmeta">
+    <span class="rtag ${x.kat==='Doa'?'cyan':''}">${x.kat}</span>
+    <span class="rtag">${getUser().map(u=>u.id).includes(id)?`KARYA SAYA`:`ASWAJA MADZHAB SYAFI'I`}</span>
+  </div>`;
+
+  if(x.a1){
+    contentHtml += `<div class="rsec">
+      <div class="rlab">${x.kat==='Doa'?'BACAAN DOA / DZIKIR (ARAB)':'PEMBUKAAN / KHUTBAH PERTAMA (ARAB)'}</div>
+      <div class="rtxt arab">${x.a1}</div>
+    </div>`;
+  }
+
+  if(x.poin1 && x.poin1.length > 0){
+    contentHtml += `<div class="rsec">
+      <div class="rlab">${x.kat==='Doa'?'KEUTAMAAN &amp; PENJELASAN':'POIN PEMBAHASAN / ISI UTAMA'}</div>
+      <ul class="poin">${x.poin1.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  if(x.qt){
+    contentHtml += `<div class="rsec">
+      <div class="rlab">DALIL AL-QUR'AN / HADITS</div>
+      <div class="rtxt arab">${x.qt.a}</div>
+      <div class="quote">"${esc(x.qt.t)}"<span class="q-src">— ${esc(x.qt.s)}</span></div>
+    </div>`;
+  }
+
+  if(x.a2){
+    contentHtml += `<div class="rsec">
+      <div class="rlab">PEMBUKAAN KHUTBAH KEDUA (ARAB)</div>
+      <div class="rtxt arab">${x.a2}</div>
+    </div>`;
+  }
+
+  if(x.poin2 && x.poin2.length > 0){
+    contentHtml += `<div class="rsec">
+      <div class="rlab">PENUTUP / CATATAN AKHIR</div>
+      <ul class="poin">${x.poin2.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  if(x.du){
+    contentHtml += `<div class="rsec">
+      <div class="rlab">DOA PENUTUP (ARAB)</div>
+      <div class="rtxt arab">${x.du}</div>
+    </div>`;
+  }
+
+  $('rBody').innerHTML = contentHtml;
+  $('btnBm').innerHTML = `<i class="fa-${on?'solid':'regular'} fa-star"></i> ${on?'Hapus Bookmark':'Bookmark'}`;
+  showModal('modalRead');
+}
+
+function readerBm(){
+  toggleFav(readId);
+  const on = getFav().includes(readId);
+  $('btnBm').innerHTML = `<i class="fa-${on?'solid':'regular'} fa-star"></i> ${on?'Hapus Bookmark':'Bookmark'}`;
+}
+
+function shareWA(){
+  const x = findItem(readId); if(!x) return;
+  const txt = `*${x.judul}* [${x.kat}]
+
+` + 
+    (x.poin1||[]).map((p,i)=>`${i+1}. ${p}`).join('\n') + 
+    (x.qt ? `\n\nDalil: "${x.qt.t}" (${x.qt.s})` : '') +
+    `\n\n— Mimbar Digital Gold Pro v3.0 by Ir. Mohamad Hartadi`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(txt.slice(0, 1600)), '_blank');
+}
+
+function copyTxt(){
+  const x = findItem(readId); if(!x) return;
+  const txt = `${x.judul}
+
+${(x.poin1||[]).join('\n\n')}
+
+${(x.poin2||[]).join('\n\n')}`;
+  navigator.clipboard.writeText(txt).then(()=>toast('Teks berhasil disalin ke clipboard ✓'));
+}
+
+function speakTxt(){
+  const x = findItem(readId); if(!x) return;
+  const speech = `Bismillahirrahmanirrahim. ${x.judul}. ` + (x.poin1||[]).join('. ');
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(speech);
+    u.lang = 'id-ID';
+    u.rate = 0.96;
+    window.speechSynthesis.speak(u);
+    toast('Membacakan isi naskah / doa... 🔊');
+  } catch(e) {
+    toast('Perangkat tidak mendukung suara TTS');
+  }
+}
+
+function printRead(){ window.print(); }
+
+// ================= EDITOR LOGIC =================
+function openEditor(id){
+  editId = id || null;
+  const x = id ? findItem(id) : null;
+  $('edTitle').textContent = x ? 'EDIT NASKAH / ARTIKEL' : 'TAMBAH NASKAH / ARTIKEL BARU';
+  $('f_judul').value = x ? x.judul : '';
+  $('f_kat').value = x ? x.kat : 'Jumat';
+  $('f_a1').value = x ? (x.a1||'') : A1;
+  $('f_isi1').value = x ? (x.poin1||[]).join('\n') : '';
+  $('f_qta').value = x && x.qt ? x.qt.a : '';
+  $('f_qtt').value = x && x.qt ? x.qt.t : '';
+  $('f_qts').value = x && x.qt ? x.qt.s : '';
+  $('f_a2').value = x ? (x.a2||'') : A2;
+  $('f_isi2').value = x ? (x.poin2||[]).join('\n') : '';
+  $('f_du').value = x ? (x.du||'') : DU;
+  showModal('modalEdit');
+}
+
+function saveEditor(){
+  const judul = $('f_judul').value.trim();
+  if(!judul){ toast('Judul wajib diisi'); return; }
+  const lines = t => t.split('\n').map(s=>s.trim()).filter(Boolean);
+
+  const item = {
+    id: editId || ('u' + Date.now()),
+    judul,
+    kat: $('f_kat').value,
+    a1: $('f_a1').value.trim() || A1,
+    poin1: lines($('f_isi1').value),
+    qt: ($('f_qta').value.trim() && $('f_qtt').value.trim()) ? {
+      a: $('f_qta').value.trim(),
+      t: $('f_qtt').value.trim(),
+      s: $('f_qts').value.trim() || '—'
+    } : null,
+    a2: $('f_a2').value.trim() || A2,
+    poin2: lines($('f_isi2').value),
+    du: $('f_du').value.trim() || DU
+  };
+
+  const u = getUser();
+  const i = u.findIndex(x=>x.id===item.id);
+  if(i>=0) u[i] = item;
+  else u.unshift(item);
+
+  setUser(u);
+  closeModal('modalEdit');
+  toast(editId ? 'Naskah diperbarui ✓' : 'Naskah baru tersimpan ✓');
+  openReader(item.id);
+}
+
+function delItem(id){
+  const x = findItem(id); if(!x) return;
+  if(!confirm(`Hapus "${x.judul}"?`)) return;
+  setUser(getUser().filter(y=>y.id!==id));
+  setFav(getFav().filter(y=>y!==id));
+  toast('Naskah berhasil dihapus');
+}
+
+function backupJSON(){
+  const data = {
+    aplikasi: "Mimbar Digital Gold Pro v3.0",
+    developer: "Ir. Mohamad Hartadi",
+    naskahMilikSaya: getUser(),
+    bookmark: getFav()
+  };
+  const b = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b);
+  a.download = 'mimbar-digital-backup.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function restoreJSON(){
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = '.json';
+  inp.onchange = () => {
+    const f = inp.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const d = JSON.parse(r.result);
+        if(Array.isArray(d.naskahMilikSaya)){ setUser(d.naskahMilikSaya); toast('Data naskah dipulihkan ✓'); }
+        if(Array.isArray(d.bookmark)) setFav(d.bookmark);
+      } catch(e){ toast('File JSON tidak valid'); }
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+// ================= MODALS & UTILS =================
+function showModal(id){ $(id).classList.add('show'); }
+function closeModal(id){ $(id).classList.remove('show'); }
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal.show').forEach(m=>closeModal(m.id));
+});
+document.addEventListener('click', e=>{
+  document.querySelectorAll('.modal').forEach(m=>{ if(e.target===m) closeModal(m.id); });
+});
+
+function openHelp(){ showModal('modalHelp'); }
+function openProg(){ showModal('modalProg'); }
+function updateCounts(){ $('cntAll').textContent = allItems().length; }
+
+let tTimer = null;
+function toast(msg){
+  let t = $('toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.className = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = 1;
+  clearTimeout(tTimer);
+  tTimer = setTimeout(()=>t.style.opacity = 0, 2400);
+}
+
+// ================= ASISTEN AI CHATBOT =================
+function handleChat(e){ if(e.key==='Enter') sendMsg(); }
+
+function sendQuickPrompt(q){
+  $('chat-input').value = q;
+  sendMsg();
+}
+
+function clearChat(){
+  $('chat-box').innerHTML = `
+    <div class="msg bot">
+      Percakapan telah direset. Silakan tanyakan hal-hal seputar <span class="bot-highlight">rukun khutbah</span>, fiqih madzhab Syafi'i, materi ibadah, atau doa &amp; dzikir ma'tsur.
+    </div>`;
+}
+
+function srcLinks(q){
+  const qe = encodeURIComponent(q);
+  return `<div class="bot-sources">
+    <i class="fas fa-link"></i> Sumber &amp; Riset Terkait: 
+    <a class="src wiki" target="_blank" href="https://id.wikipedia.org/wiki/${encodeURIComponent(q.replace(/ /g,'_'))}"><i class="fab fa-wikipedia-w"></i> Wikipedia</a>
+    <a class="src gog" target="_blank" href="https://www.google.com/search?q=${qe}"><i class="fab fa-google"></i> Google</a>
+    <a class="src gem" target="_blank" href="https://gemini.google.com/app"><i class="fas fa-wand-magic-sparkles"></i> Gemini AI</a>
+    <a class="src cop" target="_blank" href="https://copilot.microsoft.com/"><i class="fas fa-robot"></i> Copilot</a>
+    <a class="src gpt" target="_blank" href="https://chat.openai.com/"><i class="fas fa-comments"></i> ChatGPT</a>
+  </div>`;
+}
+
+function sendMsg(){
+  const input = $('chat-input'), text = input.value.trim();
+  if(!text) return;
+  const box = $('chat-box');
+  box.innerHTML += `<div class="msg user">${esc(text)}</div>`;
+  input.value = '';
+  box.scrollTop = box.scrollHeight;
+
+  const typingId = 'typing-' + Date.now();
+  box.innerHTML += `<div class="msg bot font-mono-tech" id="${typingId}" style="color:var(--cyan);font-size:11px">
+    <i class="fas fa-circle-notch fa-spin"></i> Memproses fatwa &amp; referensi islami...
+  </div>`;
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(()=>{
+    const elTyping = $(typingId);
+    if(elTyping) elTyping.remove();
+
+    const lower = text.toLowerCase();
+    const hit = KB.find(k => k.k.some(key => lower.includes(key)));
+
+    if(hit){
+      box.innerHTML += `<div class="msg bot">${hit.j}${srcLinks(text)}</div>`;
+      box.scrollTop = box.scrollHeight;
+    } else {
+      wikiSearch(text, box);
+    }
+  }, 450);
+}
+
+function wikiSearch(q, box){
+  fetch('https://id.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(q.replace(/ /g,'_')))
+  .then(r=>r.json()).then(d=>{
+    if(d && d.extract){
+      box.innerHTML += `<div class="msg bot">
+        <b>Dari Ensiklopedia Wikipedia:</b><br><br>${esc(d.extract).slice(0,450)}...
+        ${srcLinks(q)}
+      </div>`;
+    } else {
+      box.innerHTML += `<div class="msg bot">
+        Informasi khusus untuk topik tersebut tidak ditemukan di basis data lokal. Anda dapat merujuk langsung ke riset komprehensif berikut:${srcLinks(q)}
+      </div>`;
+    }
+    box.scrollTop = box.scrollHeight;
+  }).catch(()=>{
+    box.innerHTML += `<div class="msg bot">
+      Silakan gunakan tombol sumber di bawah ini untuk menelusuri literatur lengkap:${srcLinks(q)}
+    </div>`;
+    box.scrollTop = box.scrollHeight;
+  });
+}
+
+// Voice Recognition (Speech To Text)
+let recognition = null, isRecording = false;
+function toggleSpeech(){
+  if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
+    toast('Voice recognition tidak didukung di browser ini.');
+    return;
+  }
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!recognition){
+    recognition = new SpeechRec();
+    recognition.lang = 'id-ID';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onresult = e => {
+      const t = e.results[0][0].transcript;
+      $('chat-input').value = t;
+      sendMsg();
+    };
+    recognition.onend = () => {
+      isRecording = false;
+      $('mic-btn').classList.remove('active');
+    };
+  }
+
+  if(!isRecording){
+    recognition.start();
+    isRecording = true;
+    $('mic-btn').classList.add('active');
+    toast('Mendengarkan suara... 🎙️');
+  } else {
+    recognition.stop();
+    isRecording = false;
+    $('mic-btn').classList.remove('active');
+  }
+}
+
+// ================= FLOATING MENU TOGGLE =================
+function toggleFloatingMenu(){
+  const grp = $('floatButtonGroup');
+  const ic = $('iconToggleFloat');
+  if(grp.style.display === 'none'){
+    grp.style.display = 'flex';
+    ic.className = 'fas fa-angles-right';
+  } else {
+    grp.style.display = 'none';
+    ic.className = 'fas fa-angles-left';
+  }
+}
+
+// ================= SCREENSAVER & IDLE LOGIC =================
+let idleTime = 0, isScreensaverActive = false;
+let autoScEnabled = localStorage.getItem('mimbar_auto_sc') !== 'false';
+let scTimeoutMins = parseInt(localStorage.getItem('mimbar_sc_mins')) || 3;
+
+function resetIdle(){
+  idleTime = 0;
+  if(isScreensaverActive) deactivateScreensaver();
+}
+['mousemove','keypress','click','scroll','touchstart'].forEach(ev => window.addEventListener(ev, resetIdle));
+
+setInterval(()=>{
+  idleTime++;
+  if(autoScEnabled && idleTime >= (scTimeoutMins * 60) && !isScreensaverActive && $('loading-screen').style.display === 'none'){
+    activateScreensaver();
+  }
+}, 1000);
+
+function activateScreensaver(e){
+  if(e) e.stopPropagation();
+  isScreensaverActive = true;
+  const ss = $('islamicScreensaver');
+  ss.classList.add('show');
+  
+  // Make 3D Earth prominently visible during screensaver
+  const earthBg = $('earth-3d-bg');
+  if(earthBg){
+    earthBg.style.opacity = '0.92';
+    earthBg.style.zIndex = '9998';
+  }
+  
+  updateClocks();
+  updateDashboardQuote();
+  startOrbitingBadges();
+}
+
+function deactivateScreensaver(){
+  isScreensaverActive = false;
+  const ss = $('islamicScreensaver');
+  ss.classList.remove('show');
+
+  const earthBg = $('earth-3d-bg');
+  if(earthBg){
+    earthBg.style.opacity = '0.28';
+    earthBg.style.zIndex = '-1';
+  }
+  idleTime = 0;
+}
+
+function toggleAutoSc(){
+  autoScEnabled = !autoScEnabled;
+  localStorage.setItem('mimbar_auto_sc', autoScEnabled);
+  updateAutoScBtn();
+  toast(autoScEnabled ? 'Auto Screensaver: AKTIF' : 'Auto Screensaver: NONAKTIF');
+}
+
+function updateAutoScBtn(){
+  const btn = $('btnAutoSc');
+  if(!btn) return;
+  if(autoScEnabled){
+    btn.className = 'float-btn btn-emerald';
+    btn.innerHTML = '<i class="fas fa-desktop"></i>';
+    btn.title = 'Auto Screensaver (ON)';
+  } else {
+    btn.className = 'float-btn btn-red';
+    btn.innerHTML = '<i class="fas fa-ban"></i>';
+    btn.title = 'Auto Screensaver (OFF)';
+  }
+}
+
+function openScSettings(){
+  $('chkAutoSc').checked = autoScEnabled;
+  $('scTimeInput').value = scTimeoutMins;
+  showModal('modalScSettings');
+}
+
+function saveScSettings(){
+  autoScEnabled = $('chkAutoSc').checked;
+  scTimeoutMins = parseInt($('scTimeInput').value) || 3;
+  localStorage.setItem('mimbar_auto_sc', autoScEnabled);
+  localStorage.setItem('mimbar_sc_mins', scTimeoutMins);
+  updateAutoScBtn();
+  closeModal('modalScSettings');
+  toast('Konfigurasi screensaver disimpan ✓');
+}
+
+// Orbiting Apps / Badges in Screensaver
+const ORBIT_BADGES = [
+  {u:"https://adikds.github.io/Al-Quran-Karim/", i:"fa-book-quran", n:"Al-Qur'an Karim Pro"},
+  {u:"https://adikds.github.io/-Doa-Digital-Pro/", i:"fa-hands-praying", n:"Kumpulan Doa Digital"},
+  {u:"https://adikds.github.io/jarvis-ai/", i:"fa-robot", n:"JARVIS AI"},
+  {u:"https://adikds.github.io/ATLAS-GEOTEKNIK/", i:"fa-earth-americas", n:"Atlas Geoteknik"},
+  {u:"https://adikds.github.io/UNIFIED-SOIL-CLASSIFICATION-SYSTEM/", i:"fa-cubes", n:"USCS Soil"},
+  {u:"https://adikds.github.io/AERORADAR-PRO/", i:"fa-plane", n:"AeroRadar Pro"},
+  {u:"https://newbieonline7.blogspot.com/", i:"fa-blog", n:"Blog Hidrolika & Geoteknik"},
+  {u:"https://www.facebook.com/hartadi.kds", i:"fa-user-gear", n:"Ir. Mohamad Hartadi"}
+];
+
+let orbitInterval = null;
+function startOrbitingBadges(){
+  const container = $('sc-orbit-apps');
+  if(!container) return;
+  if(orbitInterval) clearInterval(orbitInterval);
+
+  orbitInterval = setInterval(()=>{
+    if(!isScreensaverActive) return;
+    const badge = ORBIT_BADGES[Math.floor(Math.random() * ORBIT_BADGES.length)];
+    const btn = document.createElement('a');
+    btn.href = badge.u;
+    btn.target = '_blank';
+    btn.className = 'orbit-app-btn';
+    btn.innerHTML = `<i class="fa-solid ${badge.i}" style="color:var(--cyan)"></i> ${badge.n}`;
+
+    const angle = Math.floor(Math.random() * 360);
+    const radius = (window.innerWidth < 640 ? 130 : 260) + Math.random() * 90;
+    btn.style.setProperty('--angle', angle + 'deg');
+    btn.style.setProperty('--radius', radius + 'px');
+
+    container.appendChild(btn);
+    setTimeout(()=>{ if(btn.parentNode === container) container.removeChild(btn); }, 8000);
+  }, 1600);
+}
+
+// ================= THREE.JS REALISTIC EARTH WITH CLOUDS =================
+function initRealisticThreeEarth(){
+  const container = $('earth-3d-bg');
+  if(!container || !window.THREE) return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 9.5);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  let controls = null;
+  if(THREE.OrbitControls){
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.minDistance = 5.5;
+    controls.maxDistance = 25;
+    controls.enableZoom = false;
+    controls.enablePan = false;
+  }
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+  scene.add(ambientLight);
+
+  const dirLight = new THREE.DirectionalLight(0xfffaed, 1.35);
+  dirLight.position.set(6, 4, 6);
+  scene.add(dirLight);
+
+  const texLoader = new THREE.TextureLoader();
+  const earthTexture = texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg');
+  const specularTexture = texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg');
+  const cloudsTexture = texLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png');
+
+  // Earth Globe Mesh
+  const earthGeo = new THREE.SphereGeometry(3.5, 64, 64);
+  const earthMat = new THREE.MeshStandardMaterial({
+    map: earthTexture,
+    roughnessMap: specularTexture,
+    roughness: 0.52,
+    metalness: 0.08
+  });
+  const globe = new THREE.Mesh(earthGeo, earthMat);
+  scene.add(globe);
+
+  // Clouds Mesh (Rotating slightly faster for realism)
+  const cloudGeo = new THREE.SphereGeometry(3.535, 64, 64);
+  const cloudMat = new THREE.MeshStandardMaterial({
+    map: cloudsTexture,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    opacity: 0.85
+  });
+  const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
+  scene.add(cloudMesh);
+
+  // Atmospheric Rim Glow (Custom Shader)
+  const vertexShader = `
+    varying vec3 vNormal;
+    void main() {
+      vNormal = normalize(normalMatrix * normal);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+  const fragmentShader = `
+    varying vec3 vNormal;
+    void main() {
+      float intensity = pow(0.7 - dot(vNormal, vec3(0, 0, 1.0)), 2.5);
+      gl_FragColor = vec4(0.35, 0.75, 1.0, 1.0) * intensity;
+    }
+  `;
+  const atmosGeo = new THREE.SphereGeometry(3.64, 64, 64);
+  const atmosMat = new THREE.ShaderMaterial({
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    blending: THREE.AdditiveBlending,
+    side: THREE.BackSide,
+    transparent: true
+  });
+  const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
+  scene.add(atmosMesh);
+
+  // Cosmic Starfield
+  const starsGeo = new THREE.BufferGeometry();
+  const starsCount = 1400;
+  const starPos = new Float32Array(starsCount * 3);
+  for(let i = 0; i < starsCount * 3; i++){
+    starPos[i] = (Math.random() - 0.5) * 130;
+  }
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starsMat = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.08,
+    transparent: true,
+    opacity: 0.75
+  });
+  const starField = new THREE.Points(starsGeo, starsMat);
+  scene.add(starField);
+
+  // Animation Loop
+  function animate(){
+    requestAnimationFrame(animate);
+    globe.rotation.y += 0.0013;
+    cloudMesh.rotation.y += 0.0017;
+    starField.rotation.y += 0.0002;
+    if(controls) controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+
+// ================= INITIALIZATION =================
+window.addEventListener('load', ()=>{
+  renderChips();
+  renderList();
+  updateCounts();
+  updateClocks();
+  updateAutoScBtn();
+  updateDashboardQuote();
+
+  // Progress Bar in Loader
+  let p = 0;
+  const bar = $('loader-bar');
+  const statusEl = $('loader-status');
+  const pInt = setInterval(()=>{
+    p += 25;
+    if(bar) bar.style.width = p + '%';
+    if(p === 50 && statusEl) statusEl.textContent = '>_ MEMUAT KHUTBAH, ARTIKEL & MATERI ISLAMI...';
+    if(p === 75 && statusEl) statusEl.textContent = '>_ MENGHUBUNGKAN ASISTEN AI & MODUL 3D BUMI...';
+    if(p >= 100){
+      clearInterval(pInt);
+      setTimeout(()=>{
+        $('loading-screen').style.opacity = '0';
+        setTimeout(()=>{
+          $('loading-screen').style.display = 'none';
+        }, 700);
+      }, 400);
+    }
+  }, 180);
+
+  setTimeout(initRealisticThreeEarth, 400);
+});
+
+$('search').addEventListener('input', renderList);
+
+console.log('Mimbar Digital Gold Pro v3.0 siap digunakan. Developed by Ir. Mohamad Hartadi.');
+</script>
+
+</body>
+</html>
