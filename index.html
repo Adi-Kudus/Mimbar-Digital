@@ -1513,6 +1513,230 @@ footer .dev b{color:var(--gold)}
   box-shadow: 0 0 10px rgba(34,211,238,0.5);
 }
 
+
+/* AI PULSE HIGHLIGHT */
+@keyframes aiPanelGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(34,211,238,0.3); border-color: var(--gold); }
+  50% { box-shadow: 0 0 45px rgba(34,211,238,0.85), 0 0 25px rgba(255,215,0,0.65); border-color: var(--cyan); }
+}
+.ai-pulse-active {
+  animation: aiPanelGlow 1.2s ease-in-out 2 !important;
+}
+
+/* PUSAT DOA HUB & TASBIH DIGITAL */
+.doa-hub-banner {
+  background: linear-gradient(135deg, rgba(6,182,212,0.18), rgba(15,23,42,0.95));
+  border: 1.5px solid rgba(34,211,238,0.4);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.doa-hub-title {
+  font-family: 'Cinzel', serif;
+  color: var(--cyan);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.doa-hub-sub {
+  color: #94a3b8;
+  font-size: 11px;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.tasbih-box {
+  background: #090e17;
+  border: 1.5px solid rgba(34,211,238,0.35);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.tasbih-led-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3.4rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: var(--cyan);
+  text-shadow: 0 0 20px rgba(34,211,238,0.8);
+  line-height: 1;
+  margin: 10px 0;
+}
+.tasbih-target-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  background: rgba(255,215,0,0.1);
+  border: 1px solid var(--gold-dark);
+  padding: 3px 10px;
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.tasbih-press-btn {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #06b6d4 0%, #083344 100%);
+  border: 3px solid #22d3ee;
+  box-shadow: 0 0 25px rgba(34,211,238,0.5);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s, box-shadow 0.1s;
+  user-select: none;
+}
+.tasbih-press-btn:active {
+  transform: scale(0.92);
+  box-shadow: 0 0 35px rgba(34,211,238,0.9);
+  background: radial-gradient(circle, #22d3ee 0%, #06b6d4 100%);
+}
+.tasbih-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.doa-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.doa-item-card {
+  background: rgba(18,24,35,0.85);
+  border: 1px solid rgba(34,211,238,0.25);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.doa-item-card:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 15px rgba(34,211,238,0.3);
+  transform: translateY(-2px);
+}
+.doa-item-card h4 {
+  font-size: 12px;
+  color: #fff;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.doa-item-card p {
+  font-size: 10.5px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* EDITOR ENHANCEMENTS */
+.editor-preset-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255,215,0,0.15);
+}
+.editor-preset-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 5px 11px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.editor-preset-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(255,215,0,0.1);
+}
+.rukun-checker-box {
+  background: #080c14;
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+.rukun-checker-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rukun-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.rukun-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #334155;
+  background: #141c2b;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+}
+.rukun-badge.pass {
+  border-color: #10b981;
+  background: rgba(16,185,129,0.15);
+  color: #34d399;
+  font-weight: 700;
+}
+.editor-ai-btn {
+  background: linear-gradient(135deg, #0284c7, #06b6d4);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s;
+}
+.editor-ai-btn:hover {
+  filter: brightness(1.2);
+  box-shadow: 0 0 12px rgba(34,211,238,0.5);
+}
+.editor-stats {
+  font-size: 10.5px;
+  color: var(--mut);
+  font-family: 'JetBrains Mono', monospace;
+}
+
 </style>
 </head>
 <body>
@@ -1573,9 +1797,9 @@ footer .dev b{color:var(--gold)}
     </a>
 
     <button class="hbtn" onclick="setTab('list')" title="Daftar Khutbah &amp; Artikel"><i class="fas fa-book-open"></i><span class="cnt" id="cntAll">0</span></button>
-    <button class="hbtn btn-cyan" onclick="setKat('Doa')" title="Kumpulan Doa"><i class="fas fa-hands-praying"></i> Doa</button>
-    <button class="hbtn" onclick="setTab('chat')" title="Asisten AI Mimbar"><i class="fas fa-robot"></i> Asisten AI</button>
-    <button class="hbtn" onclick="openEditor(null)" title="Tulis Naskah / Artikel Baru"><i class="fas fa-plus"></i> Buat Baru</button>
+    <button class="hbtn btn-cyan" onclick="openDoaHub()" title="Pusat Doa Digital &amp; Tasbih Interaktif"><i class="fas fa-hands-praying"></i> Doa</button>
+    <button class="hbtn" onclick="activateAiAssistant()" title="Aktifkan Asisten AI Mimbar &amp; Generator"><i class="fas fa-robot"></i> Asisten AI</button>
+    <button class="hbtn" onclick="openEditor(null)" title="Tulis Naskah / Artikel Baru (Rukun Khutbah Validator)"><i class="fas fa-plus"></i> Buat Baru</button>
     <button class="hbtn btn-cyan" onclick="activateScreensaver(event)" title="Screensaver Bumi 3D"><i class="fas fa-desktop"></i></button>
     <button class="hbtn" onclick="openHelp()" title="Pusat Bantuan"><i class="fas fa-circle-question"></i></button>
     <button class="hbtn" onclick="openProg()" title="Profil Programmer"><i class="fas fa-user-astronaut"></i></button>
@@ -1743,6 +1967,78 @@ footer .dev b{color:var(--gold)}
   </div>
 </div>
 
+
+<!-- MODAL PUSAT DOA & DZIKIR DIGITAL (DOA HUB) -->
+<div class="modal" id="modalDoaHub"><div class="mbox" style="max-width:820px">
+  <div class="mhead" style="background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(6,182,212,.08));border-bottom-color:var(--border-cyan)">
+    <span style="color:var(--cyan);font-size:18px"><i class="fas fa-hands-praying"></i></span>
+    <h2 style="color:var(--cyan)">PUSAT DOA DIGITAL &amp; TASBIH MA'TSUR</h2>
+    <button class="mx" onclick="closeModal('modalDoaHub')"><i class="fas fa-xmark"></i></button>
+  </div>
+  <div class="mbody" style="font-size:13px">
+    <!-- Banner Pembuka Tab Baru Permintaan User -->
+    <div class="doa-hub-banner">
+      <div>
+        <div class="doa-hub-title"><i class="fa-solid fa-cloud-moon"></i> KUMPULAN DOA DIGITAL PRO — CYBER ISLAMIC EDITION</div>
+        <div class="doa-hub-sub">Koleksi Lengkap Doa Para Nabi &amp; Shalihin, Dzikir Pagi Petang, Wirid Sholat, Ratib &amp; Ruqyah Syar'iyyah</div>
+      </div>
+      <a href="https://adikds.github.io/-Doa-Digital-Pro/" target="_blank" rel="noopener noreferrer" class="btn cyan" style="font-size:11px;padding:7px 14px">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Doa Digital (Tab Baru)
+      </a>
+    </div>
+
+    <!-- Tasbih Digital Counter Interaktif -->
+    <div class="tasbih-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-weight:700;color:var(--cyan);font-size:11px;letter-spacing:1px;font-family:'JetBrains Mono',monospace">
+          <i class="fa-solid fa-circle-dot"></i> TASBIH DIGITAL CYBER
+        </span>
+        <select id="tasbihDzikirSelect" onchange="changeTasbihTarget(this.value)" style="background:#1e293b;border:1px solid #334155;color:#fff;font-size:11px;padding:4px 8px;border-radius:6px;outline:none">
+          <option value="33|Subhanallah">Subhanallah (33x)</option>
+          <option value="33|Alhamdulillah">Alhamdulillah (33x)</option>
+          <option value="33|Allahu Akbar">Allahu Akbar (33x)</option>
+          <option value="100|Astaghfirullahal 'Adzim">Astaghfirullahal 'Adzim (100x)</option>
+          <option value="100|Laa ilaaha illallah">Laa ilaaha illallah (100x)</option>
+          <option value="100|Shalawat Nabi">Shalawat Nabi (100x)</option>
+        </select>
+      </div>
+
+      <div class="tasbih-target-tag" id="tasbihDzikirName">Subhanallah (Target: 33)</div>
+      <div class="tasbih-led-display" id="tasbihDisplay">00</div>
+      
+      <button class="tasbih-press-btn" onclick="pressTasbih()" title="Tekan untuk Menghitung Dzikir (+1)">
+        <i class="fa-solid fa-fingerprint"></i>
+      </button>
+
+      <div class="tasbih-controls">
+        <button class="btn ghost" onclick="resetTasbih()" style="font-size:11px;padding:6px 12px">
+          <i class="fa-solid fa-rotate-left"></i> Reset (0)
+        </button>
+        <button class="btn ghost" onclick="speakCurrentDzikir()" style="font-size:11px;padding:6px 12px">
+          <i class="fa-solid fa-volume-high"></i> Suara Dzikir
+        </button>
+        <button class="btn cyan" onclick="closeModal('modalDoaHub'); setKat('Doa');" style="font-size:11px;padding:6px 12px">
+          <i class="fa-solid fa-filter"></i> Lihat Semua Doa di Dasbor
+        </button>
+      </div>
+    </div>
+
+    <!-- Koleksi Doa Mustajab Cepat -->
+    <div style="margin-top:14px">
+      <div style="font-weight:700;color:var(--gold);font-size:12px;letter-spacing:1px;font-family:'JetBrains Mono',monospace;margin-bottom:8px">
+        <i class="fa-solid fa-hands-holding-circle"></i> PILIHAN DOA MUSTAJAB MA'TSUR LOKAL
+      </div>
+      <div class="doa-quick-grid" id="doaQuickList"></div>
+    </div>
+  </div>
+  <div class="mfoot" style="justify-content:space-between">
+    <button class="btn ghost" onclick="closeModal('modalDoaHub')"><i class="fas fa-xmark"></i> Tutup</button>
+    <a href="https://adikds.github.io/-Doa-Digital-Pro/" target="_blank" rel="noopener noreferrer" class="btn cyan">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Doa Digital Pro Lengkap
+    </a>
+  </div>
+</div></div>
+
 <!-- READER MODAL -->
 <div class="modal" id="modalRead"><div class="mbox">
   <div class="mhead">
@@ -1767,7 +2063,38 @@ footer .dev b{color:var(--gold)}
     <button class="mx" onclick="closeModal('modalEdit')"><i class="fas fa-xmark"></i></button>
   </div>
   <div class="mbody">
-    <div class="fld"><label>Judul *</label><input id="f_judul" placeholder="mis: Khutbah Jumat - Keberkahan Sedekah / Kajian Tazkiyatun Nafs"></div>
+    <!-- Bilah Preset 1-Klik -->
+    <div class="editor-preset-bar">
+      <span style="font-size:10px;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:4px"><i class="fas fa-wand-magic-sparkles"></i> PRESET:</span>
+      <button type="button" class="editor-preset-btn" onclick="applyEditorPreset('Jumat')"><i class="fas fa-mosque"></i> Khutbah Jumat</button>
+      <button type="button" class="editor-preset-btn" onclick="applyEditorPreset('Hari Raya')"><i class="fas fa-moon"></i> Khutbah Idul Fitri/Adha</button>
+      <button type="button" class="editor-preset-btn" onclick="applyEditorPreset('Nikah')"><i class="fas fa-ring"></i> Khutbah Nikah</button>
+      <button type="button" class="editor-preset-btn" onclick="applyEditorPreset('Artikel')"><i class="fas fa-newspaper"></i> Kajian Tematik</button>
+      <button type="button" class="editor-preset-btn" onclick="applyEditorPreset('Doa')"><i class="fas fa-hands-praying"></i> Doa &amp; Dzikir</button>
+    </div>
+
+    <!-- Verifikator 5 Rukun Khutbah Real-time -->
+    <div class="rukun-checker-box">
+      <div class="rukun-checker-title">
+        <span><i class="fas fa-certificate text-emerald-400"></i> Standar Fiqih: 5 Rukun Khutbah (Madzhab Syafi'i)</span>
+        <span class="editor-stats" id="editorStats">0 Kata (~0 Menit)</span>
+      </div>
+      <div class="rukun-badges">
+        <span class="rukun-badge" id="rk_hamdalah"><i class="fas fa-circle-xmark"></i> 1. Hamdalah</span>
+        <span class="rukun-badge" id="rk_shalawat"><i class="fas fa-circle-xmark"></i> 2. Shalawat Nabi</span>
+        <span class="rukun-badge" id="rk_takwa"><i class="fas fa-circle-xmark"></i> 3. Wasiat Takwa</span>
+        <span class="rukun-badge" id="rk_ayat"><i class="fas fa-circle-xmark"></i> 4. Ayat Al-Qur'an</span>
+        <span class="rukun-badge" id="rk_doa"><i class="fas fa-circle-xmark"></i> 5. Doa Mukminin (Khutbah 2)</span>
+      </div>
+    </div>
+
+    <div class="fld">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <label style="margin-bottom:0">Judul Naskah / Tema *</label>
+        <button type="button" class="editor-ai-btn" onclick="generateAiDraftFromEditor()"><i class="fas fa-robot"></i> Bantu Susun dengan AI</button>
+      </div>
+      <input id="f_judul" placeholder="mis: Khutbah Jumat - Keberkahan Sedekah / Menjaga Lisan" oninput="checkRukunKhutbah()">
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="fld">
         <label>Kategori</label>
@@ -1783,18 +2110,18 @@ footer .dev b{color:var(--gold)}
       </div>
       <div class="fld"><label>&nbsp;</label><div class="fhint">Tersimpan permanen di perangkat lokal Anda (localStorage) dan bisa dibackup ke JSON.</div></div>
     </div>
-    <div class="fld"><label>Teks Pembuka / Khutbah 1 (Arab / Doa Pokok)</label><textarea id="f_a1" class="arab-edit" dir="rtl"></textarea></div>
-    <div class="fld"><label>Uraian / Poin-poin Pembahasan (Satu baris per poin)</label><textarea id="f_isi1" placeholder="Poin 1: Penjelasan...
+    <div class="fld"><label>Teks Pembuka / Khutbah 1 (Arab / Doa Pokok)</label><textarea id="f_a1" class="arab-edit" dir="rtl" oninput="checkRukunKhutbah()"></textarea></div>
+    <div class="fld"><label>Uraian / Poin-poin Pembahasan (Satu baris per poin)</label><textarea id="f_isi1" oninput="checkRukunKhutbah()" placeholder="Poin 1: Penjelasan...
 Poin 2: Penjelasan..."></textarea></div>
-    <div class="fld"><label>Dalil Al-Qur'an / Hadits (Arab, Opsional)</label><textarea id="f_qta" class="arab-edit" dir="rtl"></textarea></div>
+    <div class="fld"><label>Dalil Al-Qur'an / Hadits (Arab, Opsional)</label><textarea id="f_qta" class="arab-edit" dir="rtl" oninput="checkRukunKhutbah()"></textarea></div>
     <div class="fld">
       <label>Terjemah &amp; Sumber Dalil</label>
       <input id="f_qtt" placeholder="Terjemahan ayat atau hadits...">
       <input id="f_qts" style="margin-top:6px" placeholder="Sumber (mis: HR. Muslim / QS. Al-Baqarah: 152)">
     </div>
-    <div class="fld"><label>Teks Khutbah Kedua / Penutup (Arab, Opsional)</label><textarea id="f_a2" class="arab-edit" dir="rtl"></textarea></div>
-    <div class="fld"><label>Kesimpulan / Penutup (Poin-poin)</label><textarea id="f_isi2"></textarea></div>
-    <div class="fld"><label>Doa Penutup (Arab, Opsional)</label><textarea id="f_du" class="arab-edit" dir="rtl"></textarea></div>
+    <div class="fld"><label>Teks Khutbah Kedua / Penutup (Arab, Opsional)</label><textarea id="f_a2" class="arab-edit" dir="rtl" oninput="checkRukunKhutbah()"></textarea></div>
+    <div class="fld"><label>Kesimpulan / Penutup (Poin-poin)</label><textarea id="f_isi2" oninput="checkRukunKhutbah()"></textarea></div>
+    <div class="fld"><label>Doa Penutup (Arab, Opsional)</label><textarea id="f_du" class="arab-edit" dir="rtl" oninput="checkRukunKhutbah()"></textarea></div>
   </div>
   <div class="mfoot">
     <button class="btn" onclick="saveEditor()"><i class="fas fa-floppy-disk"></i> Simpan Naskah</button>
@@ -3338,21 +3665,390 @@ function speakTxt(){
 function printRead(){ window.print(); }
 
 // ================= EDITOR LOGIC =================
+
+// ================= DEFINISI DEFAULT NASKAH ISLAMI =================
+const A1_DEFAULT = "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ﴾. أَمَّا بَعْدُ.";
+const A2_DEFAULT = "اَلْحَمْدُ لِلَّهِ حَمْدًا كَثِيرًا كَمَا أَمَرَ، وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ، صَلَّى اللهُ عَلَيْهِ وَعَلَى آلِهِ وَأَصْحَابِهِ وَسَلَّمَ تَسْلِيمًا كَثِيرًا. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ الْعَلِيِّ الْعَظِيمِ.";
+const DU_DEFAULT = "اَللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، اَلْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ. رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ. وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ.";
+
+// ================= TOMBOL 1: FITUR NYATA PUSAT DOA & TASBIH DIGITAL =================
+let tasbihCount = 0;
+let tasbihTarget = 33;
+let currentDzikirLafadz = "Subhanallah";
+
+function openDoaHub(){
+  renderDoaQuickGrid();
+  updateTasbihUI();
+  showModal('modalDoaHub');
+}
+
+function renderDoaQuickGrid(){
+  const doas = allItems().filter(x => x.kat === 'Doa');
+  const container = $('doaQuickList');
+  if(!container) return;
+
+  container.innerHTML = doas.map(d => `
+    <div class="doa-item-card" onclick="closeModal('modalDoaHub'); openReader('${d.id}')">
+      <div>
+        <h4><i class="fa-solid fa-hands-praying" style="color:var(--cyan)"></i> ${esc(d.judul)}</h4>
+        <p>${esc((d.poin1 && d.poin1[0]) || 'Bacaan doa dan dzikir ma&#39;tsur...')}</p>
+      </div>
+      <div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.06);padding-top:6px">
+        <span style="font-size:9.5px;color:var(--gold);font-family:'JetBrains Mono',monospace">Aswaja Syafi'i</span>
+        <span style="font-size:10px;color:var(--cyan);font-weight:700">Baca &rarr;</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeTasbihTarget(val){
+  const parts = val.split('|');
+  tasbihTarget = parseInt(parts[0]) || 33;
+  currentDzikirLafadz = parts[1] || 'Subhanallah';
+  tasbihCount = 0;
+  updateTasbihUI();
+}
+
+function pressTasbih(){
+  tasbihCount++;
+  if(navigator.vibrate) navigator.vibrate(25);
+  updateTasbihUI();
+
+  if(tasbihCount === tasbihTarget){
+    toast(`Target Dzikir ${tasbihTarget}x Terpenuhi! Alhamdulillah 🎉`);
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance("Alhamdulillah, target dzikir tercapai.");
+      u.lang = 'id-ID';
+      window.speechSynthesis.speak(u);
+    } catch(e){}
+  }
+}
+
+function resetTasbih(){
+  tasbihCount = 0;
+  updateTasbihUI();
+  toast('Tasbih direset ke 0');
+}
+
+function updateTasbihUI(){
+  if($('tasbihDisplay')) $('tasbihDisplay').textContent = String(tasbihCount).padStart(2, '0');
+  if($('tasbihDzikirName')) $('tasbihDzikirName').textContent = `${currentDzikirLafadz} (Target: ${tasbihTarget} | Selesai: ${Math.min(100, Math.round((tasbihCount/tasbihTarget)*100))}%)`;
+}
+
+function speakCurrentDzikir(){
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(currentDzikirLafadz);
+    u.lang = 'ar-SA';
+    u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+    toast(`Membacakan: ${currentDzikirLafadz} 🔊`);
+  } catch(e){
+    toast(currentDzikirLafadz);
+  }
+}
+
+// ================= TOMBOL 2: FITUR NYATA ASISTEN AI MIMBAR =================
+function activateAiAssistant(){
+  setTab('chat');
+  const panel = $('panelChat');
+  if(panel){
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    panel.classList.remove('ai-pulse-active');
+    void panel.offsetWidth;
+    panel.classList.add('ai-pulse-active');
+    setTimeout(() => panel.classList.remove('ai-pulse-active'), 2400);
+  }
+  const input = $('chat-input');
+  if(input) input.focus();
+
+  showAiAssistantMenu();
+}
+
+function showAiAssistantMenu(){
+  const box = $('chat-box');
+  const welcomeId = 'ai-welcome-' + Date.now();
+  
+  box.innerHTML += `
+    <div class="msg bot" id="${welcomeId}" style="border-left-color:var(--cyan)">
+      <div style="font-weight:700;color:var(--cyan);font-size:12px;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+        <i class="fas fa-sparkles"></i> MENU LAYANAN AKTIF ASISTEN AI MIMBAR:
+      </div>
+      <p style="font-size:11.5px;color:#cbd5e1;margin-bottom:8px">Silakan pilih perintah instan atau ketik topik dakwah yang Anda inginkan:</p>
+      
+      <div style="display:grid;grid-template-columns:1fr;gap:5px">
+        <button onclick="aiGenerateKhutbah('Keberkahan Sedekah')" class="btn ghost" style="text-align:left;justify-content:flex-start;font-size:11px;padding:6px 10px">
+          <i class="fas fa-feather" style="color:var(--gold)"></i> <b>1. Buatkan Khutbah Jumat:</b> Keberkahan Sedekah
+        </button>
+        <button onclick="aiGenerateKhutbah('Menjaga Lisan')" class="btn ghost" style="text-align:left;justify-content:flex-start;font-size:11px;padding:6px 10px">
+          <i class="fas fa-feather" style="color:var(--cyan)"></i> <b>2. Buatkan Khutbah Jumat:</b> Menjaga Lisan &amp; Medsos
+        </button>
+        <button onclick="aiGenerateKhutbah('Birrul Walidain')" class="btn ghost" style="text-align:left;justify-content:flex-start;font-size:11px;padding:6px 10px">
+          <i class="fas fa-feather" style="color:var(--emerald)"></i> <b>3. Buatkan Khutbah Jumat:</b> Berbakti kepada Orang Tua
+        </button>
+        <button onclick="sendQuickPrompt('rukun khutbah jumat')" class="btn ghost" style="text-align:left;justify-content:flex-start;font-size:11px;padding:6px 10px">
+          <i class="fas fa-scale-balanced" style="color:var(--pur)"></i> <b>4. Konsultasi Fiqih:</b> 5 Rukun &amp; Syarat Sah Khutbah
+        </button>
+        <button onclick="triggerMyAppsShortcut()" class="btn ghost" style="text-align:left;justify-content:flex-start;font-size:11px;padding:6px 10px">
+          <i class="fas fa-laptop-code" style="color:var(--gold)"></i> <b>5. Portofolio:</b> Tampilkan 50 Aplikasi Karya Developer
+        </button>
+      </div>
+    </div>
+  `;
+  box.scrollTop = box.scrollHeight;
+}
+
+// AI KHUTBAH GENERATOR YANG MENYAMBUNG LANGSUNG KE EDITOR
+function aiGenerateKhutbah(topic){
+  const box = $('chat-box');
+  box.innerHTML += `<div class="msg user"><i class="fas fa-feather"></i> Buatkan Naskah Khutbah Jumat tentang "${topic}"</div>`;
+  box.scrollTop = box.scrollHeight;
+
+  const typingId = 'typing-' + Date.now();
+  box.innerHTML += `<div class="msg bot font-mono-tech" id="${typingId}" style="color:var(--cyan);font-size:11px">
+    <i class="fas fa-circle-notch fa-spin"></i> Merumuskan 5 rukun khutbah, dalil Al-Qur'an, dan kajian tematik tentang "${topic}"...
+  </div>`;
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(()=>{
+    const elTyping = $(typingId);
+    if(elTyping) elTyping.remove();
+
+    let dalilArab = "وَأَحْسِنُوا إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ";
+    let dalilTerjemah = "Dan berbuat baiklah, sesungguhnya Allah menyukai orang-orang yang berbuat baik.";
+    let dalilSumber = "QS. Al-Baqarah: 195";
+
+    if(topic.includes("Sedekah")){
+      dalilArab = "مَثَلُ الَّذِينَ يُنْفِقُونَ أَمْوَالَهُمْ فِي سَبِيلِ اللَّهِ كَمَثَلِ حَبَّةٍ أَنْبَتَتْ سَبْعَ سَنَابِلَ";
+      dalilTerjemah = "Perumpamaan orang yang menginfakkan hartanya di jalan Allah seperti sebutir biji yang menumbuhkan tujuh tangkai.";
+      dalilSumber = "QS. Al-Baqarah: 261";
+    } else if(topic.includes("Lisan")){
+      dalilArab = "مَا يَلْفِظُ مِنْ قَوْلٍ إِلَّا لَدَيْهِ رَقِيبٌ عَتِيدٌ";
+      dalilTerjemah = "Tiada suatu ucapanpun yang diucapkannya melainkan ada di dekatnya malaikat pengawas yang selalu hadir.";
+      dalilSumber = "QS. Qaf: 18";
+    } else if(topic.includes("Walidain") || topic.includes("Orang Tua")){
+      dalilArab = "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا";
+      dalilTerjemah = "Dan Tuhanmu telah memerintahkan agar kamu jangan menyembah selain Dia dan hendaklah berbuat baik kepada ibu bapak.";
+      dalilSumber = "QS. Al-Isra: 23";
+    }
+
+    const naskahGenerated = {
+      judul: `Khutbah Jumat: Menggapai Kemuliaan dengan ${topic}`,
+      kat: "Jumat",
+      a1: A1_DEFAULT,
+      poin1: [
+        `Puji syukur kita panjatkan ke hadirat Allah SWT atas segala nikmat iman dan islam sehingga kita dapat berkumpul di majelis Jumat yang mulia ini.`,
+        `Khatib berwasiat kepada diri pribadi dan segenap jamaah sekalian, marilah kita senantiasa meningkatkan ketakwaan kepada Allah SWT dengan menjalankan segala perintah-Nya dan menjauhi segala larangan-Nya.`,
+        `Tema khutbah kita pada siang hari ini adalah tentang "${topic}". Sesungguhnya ${topic} merupakan pilar akhlak mulia yang menjadi bukti keotentikan iman seorang mukmin.`,
+        `Dengan mengamalkan ${topic} secara ikhlas, Allah Ta'ala menjanjikan kelapangan dada, keberkahan rezeki, dan perlindungan dari mara bahaya di dunia maupun di akhirat.`
+      ],
+      qt: { a: dalilArab, t: dalilTerjemah, s: dalilSumber },
+      a2: A2_DEFAULT,
+      poin2: [
+        `Marilah kita jadikan momentum shalat Jumat ini untuk memperbaiki hubungan kita dengan Allah (Hablum minallah) dan hubungan dengan sesama manusia (Hablum minannas).`,
+        `Perbanyaklah membaca shalawat kepada Nabi Muhammad SAW di hari yang penuh barakah ini.`
+      ],
+      du: DU_DEFAULT
+    };
+
+    const encoded = encodeURIComponent(JSON.stringify(naskahGenerated));
+
+    box.innerHTML += `
+      <div class="msg bot">
+        <b style="color:var(--gold)"><i class="fas fa-check-circle"></i> Naskah Khutbah Berhasil Disusun Otomatis Sesuai Kaidah Aswaja Syafi'i:</b><br><br>
+        <b>Judul:</b> ${esc(naskahGenerated.judul)}<br>
+        <b>Kategori:</b> Khutbah Jumat (5 Rukun Lengkap)<br>
+        <b>Dalil Utama:</b> <i>"${dalilTerjemah}"</i> (${dalilSumber})<br><br>
+        <div style="background:rgba(255,215,0,0.06);border:1px solid var(--gold-dark);padding:10px;border-radius:10px;margin-bottom:8px">
+          <small style="color:#cbd5e1"><i class="fas fa-shield-halved text-emerald-400"></i> Memenuhi 5 Rukun: Hamdalah, Shalawat, Wasiat Takwa, Ayat Al-Qur'an, dan Doa Mukminin.</small>
+        </div>
+        <button onclick="loadGeneratedToEditor('${encoded}')" class="btn" style="width:100%;justify-content:center;font-size:12px">
+          <i class="fas fa-pen-nib"></i> Masukkan ke Form Editor Naskah
+        </button>
+      </div>
+    `;
+    box.scrollTop = box.scrollHeight;
+  }, 600);
+}
+
+function loadGeneratedToEditor(encodedJson){
+  try {
+    const data = JSON.parse(decodeURIComponent(encodedJson));
+    editId = null;
+    $('edTitle').textContent = 'EDIT NASKAH GENERATOR AI';
+    $('f_judul').value = data.judul || '';
+    $('f_kat').value = data.kat || 'Jumat';
+    $('f_a1').value = data.a1 || A1_DEFAULT;
+    $('f_isi1').value = (data.poin1 || []).join('\n');
+    $('f_qta').value = (data.qt && data.qt.a) || '';
+    $('f_qtt').value = (data.qt && data.qt.t) || '';
+    $('f_qts').value = (data.qt && data.qt.s) || '';
+    $('f_a2').value = data.a2 || A2_DEFAULT;
+    $('f_isi2').value = (data.poin2 || []).join('\n');
+    $('f_du').value = data.du || DU_DEFAULT;
+    
+    showModal('modalEdit');
+    checkRukunKhutbah();
+    toast('Draf Khutbah AI dimuat ke Editor ✓');
+  } catch(e){
+    toast('Gagal memuat naskah generator');
+  }
+}
+
+// ================= TOMBOL 3: FITUR NYATA EDITOR NASKAH & RUKUN CHECKER =================
+const EDITOR_PRESETS = {
+  "Jumat": {
+    judul: "Khutbah Jumat: Menjaga Integritas & Ketaatan",
+    kat: "Jumat",
+    a1: A1_DEFAULT,
+    isi1: "1. Keimanan dan ketakwaan adalah bekal utama mengarungi kehidupan fana.\n2. Ketakwaan sejati tercermin dari keselarasan antara sholat dan akhlak bermuamalah.\n3. Menjauhi kezhaliman, korupsi, dan menjaga amanah.",
+    qta: "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَقُولُوا قَوْلًا سَدِيدًا",
+    qtt: "Wahai orang-orang yang beriman, bertakwalah kepada Allah dan ucapkanlah perkataan yang benar.",
+    qts: "QS. Al-Ahzab: 70",
+    a2: A2_DEFAULT,
+    isi2: "1. Marilah kita terus mengoreksi diri sebelum datangnya hisab akhirat.\n2. Perbanyak membaca shalawat kepada Nabi Muhammad SAW.",
+    du: DU_DEFAULT
+  },
+  "Hari Raya": {
+    judul: "Khutbah Hari Raya: Menyemai Fitrah & Kedamaian",
+    kat: "Hari Raya",
+    a1: "اللهُ أَكْبَرُ (٩×)، اللهُ أَكْبَرُ كَبِيرًا وَالْحَمْدُ لِلَّهِ كَثِيرًا. اَلْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَذَا، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ.",
+    isi1: "1. Hari raya adalah hari kemenangan ruhani kembali ke kesucian fitrah.\n2. Menjaga ukhuwah islamiyah dan saling memaafkan kekhilafan sesama.\n3. Menyayangi anak-anak yatim dan fakir miskin.",
+    qta: "وَلِتُكْمِلُوا الْعِدَّةَ وَلِتُكَبِّرُوا اللَّهَ عَلَى مَا هَدَاكُمْ",
+    qtt: "Dan hendaklah kamu mencukupkan bilangannya dan mengagungkan Allah atas petunjuk-Nya.",
+    qts: "QS. Al-Baqarah: 185",
+    a2: "اللهُ أَكْبَرُ (٧×)، اَلْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى نَبِيِّنَا مُحَمَّدٍ. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، اِتَّقُوا اللهَ.",
+    isi2: "1. Lanjutkan amal kebajikan dengan puasa sunnah Syawal.\n2. Doakan keselamatan segenap kaum muslimin.",
+    du: DU_DEFAULT
+  },
+  "Nikah": {
+    judul: "Khutbah Nikah: Membangun Bahtera Sakinah Mawaddah Warahmah",
+    kat: "Nikah",
+    a1: "اَلْحَمْدُ لِلَّهِ الَّذِي خَلَقَ مِنَ الْمَاءِ بَشَرًا فَجَعَلَهُ نَسَبًا وَصِهْرًا. أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللهِ.",
+    isi1: "1. Pernikahan adalah ikatan suci yang mengikat dua insan dalam ketaatan syariat.\n2. Suami memimpin dengan keadilan dan kelembutan, istri mendampingi dengan ketulusan.\n3. Menjaga komunikasi yang santun dan senantiasa bermusyawarah.",
+    qta: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا",
+    qtt: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri...",
+    qts: "QS. Ar-Rum: 21",
+    a2: "اَلْحَمْدُ لِلَّهِ وَالصَّلَاةُ وَالسَّلَامُ عَلَى رَسُولِ اللهِ. أَمَّا بَعْدُ، فَيَا عِبَادَ اللهِ، اتَّقُوا اللهَ.",
+    isi2: "1. Berikan nafkah halal dan didik keturunan dengan nilai Al-Qur'an.\n2. Saling bersabar dalam menghadapi ujian kehidupan rumah tangga.",
+    du: "بَارَكَ اللهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ. اَللَّهُمَّ أَلِّفْ بَيْنَهُمَا كَمَا أَلَّفْتَ بَيْنَ آدَمَ وَحَوَّاءَ."
+  },
+  "Artikel": {
+    judul: "Kajian Tazkiyatun Nafs: Menjernihkan Cermin Hati",
+    kat: "Artikel",
+    a1: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ. الْحَمْدُ لِلَّهِ الَّذِي طَهَّرَ قُلُوبَ أَوْلِيَائِهِ.",
+    isi1: "1. Hati adalah poros keselamatan jiwa manusia.\n2. Tahapan tazkiyah: Takhalli (pembersihan), Tahalli (pengisian kebaikan), Tajalli (pencerahan ilahi).\n3. Membiasakan dzikrullah dan tafakkur.",
+    qta: "قَدْ أَفْلَحَ مَنْ زَكَّاهَا ۝ وَقَدْ خَابَ مَنْ دَسَّاهَا",
+    qtt: "Sungguh beruntung orang yang menyucikan jiwanya, dan merugi orang yang mengotorinya.",
+    qts: "QS. Asy-Syams: 9-10",
+    a2: "وَالصَّلَاةُ وَالسَّلَامُ عَلَى خَيْرِ الْأَنَامِ مُحَمَّدٍ وَعَلَى آلِهِ وَصَحْبِهِ.",
+    isi2: "1. Istiqamah dalam muraqabah kepada Allah.\n2. Memperbanyak istighfar setiap waktu.",
+    du: DU_DEFAULT
+  },
+  "Doa": {
+    judul: "Kumpulan Doa Perlindungan & Keselamatan",
+    kat: "Doa",
+    a1: "اَللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ...",
+    isi1: "1. Bacaan dzikir ma'tsur perlindungan pagi dan petang.\n2. Membentengi diri dari bisikan syaithan dan kegelisahan dunia.",
+    qta: "وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ",
+    qtt: "Dan Tuhanmu berfirman: 'Berdoalah kepada-Ku, niscaya akan Kuperkenankan bagimu.'",
+    qts: "QS. Ghafir: 60",
+    a2: "سُبْحَانَ اللهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللهُ وَاللهُ أَكْبَرُ",
+    isi2: "1. Membaca doa dengan hati yang khusyuk dan penuh pengharapan.",
+    du: DU_DEFAULT
+  }
+};
+
+function applyEditorPreset(type){
+  const p = EDITOR_PRESETS[type];
+  if(!p) return;
+  $('f_judul').value = p.judul;
+  $('f_kat').value = p.kat;
+  $('f_a1').value = p.a1;
+  $('f_isi1').value = p.isi1;
+  $('f_qta').value = p.qta;
+  $('f_qtt').value = p.qtt;
+  $('f_qts').value = p.qts;
+  $('f_a2').value = p.a2;
+  $('f_isi2').value = p.isi2;
+  $('f_du').value = p.du;
+
+  checkRukunKhutbah();
+  toast(`Preset ${type} diterapkan ✓`);
+}
+
+function generateAiDraftFromEditor(){
+  const judul = $('f_judul').value.trim() || 'Keutamaan Tawakal dan Sabar';
+  closeModal('modalEdit');
+  activateAiAssistant();
+  aiGenerateKhutbah(judul);
+}
+
+function checkRukunKhutbah(){
+  const a1 = ($('f_a1') ? $('f_a1').value : '');
+  const a2 = ($('f_a2') ? $('f_a2').value : '');
+  const qta = ($('f_qta') ? $('f_qta').value : '');
+  const du = ($('f_du') ? $('f_du').value : '');
+  const isi1 = ($('f_isi1') ? $('f_isi1').value : '');
+  const isi2 = ($('f_isi2') ? $('f_isi2').value : '');
+
+  const totalText = `${a1} ${a2} ${qta} ${du} ${isi1} ${isi2}`;
+  const words = totalText.trim().split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(1, Math.round(words / 110));
+
+  if($('editorStats')) $('editorStats').textContent = `${words} Kata (~${mins} Menit Baca)`;
+
+  // 1. Hamdalah
+  const passHamdalah = /حمد|الحمد لله|نحمده/i.test(a1) && /حمد|الحمد لله/i.test(a2);
+  toggleRukunBadge('rk_hamdalah', passHamdalah, '1. Hamdalah (2 Khutbah)');
+
+  // 2. Shalawat
+  const passShalawat = /صل|اللهم صل|صلى الله/i.test(a1) && /صل|اللهم صل|صلى الله/i.test(a2);
+  toggleRukunBadge('rk_shalawat', passShalawat, '2. Shalawat Nabi (2 Khutbah)');
+
+  // 3. Wasiat Takwa
+  const passTakwa = /اتق|تقوى|أوصيكم/i.test(a1) && /اتق|تقوى|أوصيكم/i.test(a2);
+  toggleRukunBadge('rk_takwa', passTakwa, '3. Wasiat Takwa (2 Khutbah)');
+
+  // 4. Ayat Al-Qur'an
+  const passAyat = qta.trim().length > 10 || /﴿.*﴾/.test(a1) || /﴿.*﴾/.test(a2);
+  toggleRukunBadge("rk_ayat", passAyat, "4. Ayat Al-Qur'an");
+
+  // 5. Doa Mukminin di Khutbah 2
+  const passDoa = /اللهم اغفر|للمسلمين|للمؤمنين/i.test(du) || /اللهم اغفر|للمسلمين|للمؤمنين/i.test(a2);
+  toggleRukunBadge('rk_doa', passDoa, '5. Doa Mukminin (Khutbah 2)');
+}
+
+function toggleRukunBadge(id, isPass, label){
+  const el = $(id);
+  if(!el) return;
+  if(isPass){
+    el.className = 'rukun-badge pass';
+    el.innerHTML = `<i class="fas fa-check-circle"></i> ${label}`;
+  } else {
+    el.className = 'rukun-badge';
+    el.innerHTML = `<i class="fas fa-circle-xmark"></i> ${label}`;
+  }
+}
+
+// Override openEditor to guarantee safety and run checks
 function openEditor(id){
   editId = id || null;
   const x = id ? findItem(id) : null;
   $('edTitle').textContent = x ? 'EDIT NASKAH / ARTIKEL' : 'TAMBAH NASKAH / ARTIKEL BARU';
   $('f_judul').value = x ? x.judul : '';
   $('f_kat').value = x ? x.kat : 'Jumat';
-  $('f_a1').value = x ? (x.a1||'') : A1;
+  $('f_a1').value = x ? (x.a1||'') : A1_DEFAULT;
   $('f_isi1').value = x ? (x.poin1||[]).join('\n') : '';
   $('f_qta').value = x && x.qt ? x.qt.a : '';
   $('f_qtt').value = x && x.qt ? x.qt.t : '';
   $('f_qts').value = x && x.qt ? x.qt.s : '';
-  $('f_a2').value = x ? (x.a2||'') : A2;
+  $('f_a2').value = x ? (x.a2||'') : A2_DEFAULT;
   $('f_isi2').value = x ? (x.poin2||[]).join('\n') : '';
-  $('f_du').value = x ? (x.du||'') : DU;
+  $('f_du').value = x ? (x.du||'') : DU_DEFAULT;
   showModal('modalEdit');
+  checkRukunKhutbah();
 }
 
 function saveEditor(){
@@ -3364,16 +4060,16 @@ function saveEditor(){
     id: editId || ('u' + Date.now()),
     judul,
     kat: $('f_kat').value,
-    a1: $('f_a1').value.trim() || A1,
+    a1: $('f_a1').value.trim() || A1_DEFAULT,
     poin1: lines($('f_isi1').value),
     qt: ($('f_qta').value.trim() && $('f_qtt').value.trim()) ? {
       a: $('f_qta').value.trim(),
       t: $('f_qtt').value.trim(),
       s: $('f_qts').value.trim() || '—'
     } : null,
-    a2: $('f_a2').value.trim() || A2,
+    a2: $('f_a2').value.trim() || A2_DEFAULT,
     poin2: lines($('f_isi2').value),
-    du: $('f_du').value.trim() || DU
+    du: $('f_du').value.trim() || DU_DEFAULT
   };
 
   const u = getUser();
