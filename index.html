@@ -1168,6 +1168,351 @@ footer .dev b{color:var(--gold)}
   .rtxt, .rtxt.arab{color:#000!important}
   .mbox{border:none}
 }
+
+/* TOMBOL HEADER AL-QURAN & DOA DIGITAL */
+.hbtn.btn-quran-header {
+  border-color: rgba(255,215,0,0.5);
+  background: linear-gradient(135deg, rgba(255,215,0,0.18), rgba(184,134,11,0.12));
+  color: var(--gold-light);
+  text-decoration: none;
+}
+.hbtn.btn-quran-header:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(255,215,0,0.55);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.hbtn.btn-doa-header {
+  border-color: rgba(34,211,238,0.5);
+  background: linear-gradient(135deg, rgba(34,211,238,0.18), rgba(6,182,212,0.12));
+  color: var(--cyan);
+  text-decoration: none;
+}
+.hbtn.btn-doa-header:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px rgba(34,211,238,0.55);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* QUICK ACCESS DASBOR BANNER */
+.dash-quick-banner {
+  background: linear-gradient(135deg, rgba(15,23,42,0.94), rgba(8,12,20,0.96));
+  border: 1.5px solid rgba(255,215,0,0.32);
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+}
+.dash-banner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+.dash-badge-pulse {
+  font-size: 10px;
+  color: var(--cyan);
+  background: rgba(34,211,238,0.12);
+  border: 1px solid rgba(34,211,238,0.3);
+  padding: 2px 9px;
+  border-radius: 99px;
+}
+.dash-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 10px;
+}
+.dash-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(24,30,42,0.85);
+  border: 1.5px solid rgba(255,215,0,0.2);
+  border-radius: 12px;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: var(--txt);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.dash-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0; width: 4px;
+}
+.dash-card.card-quran-pro::before {
+  background: linear-gradient(180deg, #ffd700, #b8860b);
+}
+.dash-card.card-doa-pro::before {
+  background: linear-gradient(180deg, #22d3ee, #06b6d4);
+}
+.dash-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.dash-card.card-quran-pro:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 16px rgba(255,215,0,0.3);
+}
+.dash-card.card-doa-pro:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 16px rgba(34,211,238,0.3);
+}
+.dash-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex: none;
+}
+.card-quran-pro .dash-card-icon {
+  background: rgba(255,215,0,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(255,215,0,0.35);
+}
+.card-doa-pro .dash-card-icon {
+  background: rgba(34,211,238,0.15);
+  color: var(--cyan);
+  border: 1px solid rgba(34,211,238,0.35);
+}
+.dash-card-content {
+  flex: 1;
+  min-width: 0;
+}
+.dash-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.card-quran-pro .dash-card-title i { color: var(--gold); font-size: 11px; }
+.card-doa-pro .dash-card-title i { color: var(--cyan); font-size: 11px; }
+.dash-card-desc {
+  font-size: 10.8px;
+  color: #94a3b8;
+  margin-top: 3px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dash-card-meta {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  color: #64748b;
+  font-family: 'JetBrains Mono', monospace;
+}
+.pill-quran {
+  background: rgba(255,215,0,0.15);
+  color: var(--gold);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.pill-doa {
+  background: rgba(34,211,238,0.15);
+  color: var(--cyan);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* CHAT SHORTCUT MY APLIKASI & 50 APPS LIST */
+.chat-shortcuts button.sc-myapps {
+  background: linear-gradient(135deg, rgba(234,179,8,0.22), rgba(6,182,212,0.18)) !important;
+  border: 1px solid var(--gold) !important;
+  color: var(--gold-light) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 10px rgba(255,215,0,0.25) !important;
+}
+.chat-shortcuts button.sc-myapps:hover {
+  background: linear-gradient(135deg, rgba(234,179,8,0.38), rgba(6,182,212,0.32)) !important;
+  color: #fff !important;
+  box-shadow: 0 0 16px rgba(255,215,0,0.55) !important;
+}
+
+.myapps-container {
+  background: #090e17;
+  border: 1.5px solid rgba(255,215,0,0.35);
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.myapps-header {
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+.myapps-title {
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.myapps-search {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: #fff;
+  font-size: 11.5px;
+  outline: none;
+  margin-bottom: 8px;
+}
+.myapps-search:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px rgba(34,211,238,0.3);
+}
+.myapps-cat-bar {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+.myapps-cat-btn {
+  background: #141c2b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  font-size: 9.5px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.myapps-cat-btn:hover, .myapps-cat-btn.active {
+  background: rgba(34,211,238,0.15);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+.myapps-list {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 4px;
+}
+.myapp-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 7px 10px;
+  transition: all 0.2s;
+}
+.myapp-card:hover {
+  border-color: var(--gold);
+  background: rgba(24,30,42,0.95);
+  transform: translateX(2px);
+}
+.myapp-num {
+  font-size: 9.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--cyan);
+  font-weight: 700;
+  width: 24px;
+  flex: none;
+}
+.myapp-ico {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: rgba(255,215,0,0.1);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex: none;
+}
+.myapp-body {
+  flex: 1;
+  min-width: 0;
+}
+.myapp-name {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.myapp-desc {
+  font-size: 9.5px;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+.myapp-badge {
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  flex: none;
+}
+.badge-geotek { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+.badge-ai { background: rgba(192,132,252,0.15); color: #c084fc; border: 1px solid rgba(192,132,252,0.3); }
+.badge-medis { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+.badge-bisnis { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+.badge-religi { background: rgba(34,211,238,0.15); color: #22d3ee; border: 1px solid rgba(34,211,238,0.3); }
+.badge-mon { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+.myapp-open-btn {
+  background: linear-gradient(135deg, #0284c7, #06b6d4);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  transition: all 0.15s;
+}
+.myapp-open-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(34,211,238,0.5);
+}
+
 </style>
 </head>
 <body>
@@ -1219,6 +1564,14 @@ footer .dev b{color:var(--gold)}
   </div>
 
   <div class="hbtns">
+    <!-- Tombol Pembuka Tab Baru Permintaan User -->
+    <a href="https://adi-kudus.github.io/Al-Quran-Karim/" target="_blank" rel="noopener noreferrer" class="hbtn btn-quran-header" title="Buka Aplikasi Al-Qur'an Karim Pro (Membuka Tab Baru)">
+      <i class="fas fa-book-quran"></i> Al-Qur'an <i class="fas fa-arrow-up-right-from-square" style="font-size:9px"></i>
+    </a>
+    <a href="https://adikds.github.io/-Doa-Digital-Pro/" target="_blank" rel="noopener noreferrer" class="hbtn btn-doa-header" title="Buka Kumpulan Doa Digital Pro - Cyber Islamic Edition (Membuka Tab Baru)">
+      <i class="fas fa-hands-praying"></i> Doa Digital <i class="fas fa-arrow-up-right-from-square" style="font-size:9px"></i>
+    </a>
+
     <button class="hbtn" onclick="setTab('list')" title="Daftar Khutbah &amp; Artikel"><i class="fas fa-book-open"></i><span class="cnt" id="cntAll">0</span></button>
     <button class="hbtn btn-cyan" onclick="setKat('Doa')" title="Kumpulan Doa"><i class="fas fa-hands-praying"></i> Doa</button>
     <button class="hbtn" onclick="setTab('chat')" title="Asisten AI Mimbar"><i class="fas fa-robot"></i> Asisten AI</button>
@@ -1247,6 +1600,45 @@ footer .dev b{color:var(--gold)}
       </div>
     </div>
 
+        <!-- QUICK ACCESS DASBOR: APLIKASI AL-QURAN & DOA DIGITAL PRO -->
+    <div class="dash-quick-banner">
+      <div class="dash-banner-header">
+        <span><i class="fa-solid fa-star-and-crescent" style="color:var(--gold)"></i> APLIKASI ISLAMI UNGGULAN DI DASBOR</span>
+        <span class="dash-badge-pulse"><i class="fa-solid fa-arrow-up-right-from-square"></i> Membuka Tab Baru</span>
+      </div>
+      <div class="dash-cards-grid">
+        <a href="https://adi-kudus.github.io/Al-Quran-Karim/" target="_blank" rel="noopener noreferrer" class="dash-card card-quran-pro" title="Buka Aplikasi Al-Qur'an Karim di Tab Baru">
+          <div class="dash-card-icon"><i class="fa-solid fa-book-quran"></i></div>
+          <div class="dash-card-content">
+            <div class="dash-card-title">
+              <span>Aplikasi Al-Qur'an Karim</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </div>
+            <div class="dash-card-desc">Al-Qur'an Digital 30 Juz lengkap dengan Terjemahan Kemenag, Tafsir Jalalain &amp; Audio Murottal MP3</div>
+            <div class="dash-card-meta">
+              <span class="pill-quran"><i class="fa-solid fa-book"></i> Kitabullah</span>
+              <span><i class="fa-solid fa-link"></i> adi-kudus.github.io/Al-Quran-Karim/</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://adikds.github.io/-Doa-Digital-Pro/" target="_blank" rel="noopener noreferrer" class="dash-card card-doa-pro" title="Buka Kumpulan Doa Digital Pro - Cyber Islamic Edition di Tab Baru">
+          <div class="dash-card-icon"><i class="fa-solid fa-hands-praying"></i></div>
+          <div class="dash-card-content">
+            <div class="dash-card-title">
+              <span>Kumpulan Doa Digital Pro</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </div>
+            <div class="dash-card-desc">Cyber Islamic Edition: Doa Para Nabi &amp; Solihin, Dzikir Pagi Petang, Sholawat, Ruqyah &amp; Wirid Ma'tsur</div>
+            <div class="dash-card-meta">
+              <span class="pill-doa"><i class="fa-solid fa-shield-halved"></i> Cyber Islamic</span>
+              <span><i class="fa-solid fa-link"></i> adikds.github.io/-Doa-Digital-Pro/</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
     <div class="searchwrap">
       <i class="fas fa-magnifying-glass"></i>
       <input id="search" placeholder="Cari naskah khutbah, artikel, materi fiqih, atau doa... (mis: jumat, istighfar, wudhu, sedekah, nikah)">
@@ -1268,6 +1660,8 @@ footer .dev b{color:var(--gold)}
     </div>
 
     <div class="chat-shortcuts">
+      <button onclick="triggerMyAppsShortcut()" class="sc-myapps" title="Lihat 50 Daftar Aplikasi Portofolio"><i class="fas fa-laptop-code"></i> My Aplikasi (50)</button>
+
       <button onclick="sendQuickPrompt('rukun khutbah jumat')"><i class="fas fa-scroll"></i> Rukun Khutbah</button>
       <button onclick="sendQuickPrompt('fiqih sholat madzhab syafii')"><i class="fas fa-mosque"></i> Fiqih Sholat</button>
       <button onclick="sendQuickPrompt('tata cara zakat fitrah')"><i class="fas fa-coins"></i> Zakat Fitrah</button>
@@ -1280,7 +1674,8 @@ footer .dev b{color:var(--gold)}
       <div class="msg bot">
         Assalamu'alaikum warahmatullahi wabarakatuh. Saya <span class="bot-highlight">Asisten AI Mimbar Digital Pro</span>.
         <br><br>
-        Silakan tanyakan seputar <span class="arab-inline">rukun &amp; syarat khutbah</span>, fiqih madzhab Syafi'i, kajian artikel islami, tata cara ibadah (thaharah, sholat, zakat, puasa), serta kumpulan doa &amp; dzikir ma'tsur.
+        Silakan tanyakan seputar <span class="arab-inline">rukun &amp; syarat khutbah</span>, fiqih madzhab Syafi'i, kajian artikel islami, tata cara ibadah (thaharah, sholat, zakat, puasa), serta kumpulan doa &amp; dzikir ma'tsur.        <br><br>
+        <button onclick="triggerMyAppsShortcut()" class="btn" style="padding:4px 10px;font-size:11px;background:linear-gradient(135deg,#eab308,#0891b2);color:#fff"><i class="fas fa-laptop-code"></i> Buka Direktori 50 Aplikasi Saya</button>
       </div>
     </div>
 
@@ -1501,6 +1896,492 @@ function setUser(a){ localStorage.setItem(UKEY, JSON.stringify(a)); renderList()
 function allItems(){ return [...getUser(), ...DATABASE_KONTEN]; }
 function findItem(id){ return allItems().find(x => x.id === id); }
 function esc(t){ return (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+
+// 50 APLIKASI PORTOFOLIO IR. MOHAMAD HARTADI
+const APPS_PORTOFOLIO = [
+  {
+    "u": "https://adi-kudus.github.io/Al-Quran-Karim/",
+    "i": "fa-book-quran",
+    "n": "Al-Qur'an Karim Pro",
+    "d": "Digital Quran 30 Juz, Terjemah Kemenag & Jalalain, Audio Murottal & Tajwid",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://adikds.github.io/-Doa-Digital-Pro/",
+    "i": "fa-hands-praying",
+    "n": "Kumpulan Doa Digital Pro",
+    "d": "Cyber Islamic Edition - Doa Ma'tsur Para Nabi, Dzikir Pagi Petang & Ratib",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://adikds.github.io/jarvis-ai/",
+    "i": "fa-cat",
+    "n": "JARVIS AI Superagent v8.5",
+    "d": "Superagent HUD, Voice Command, Multi-OS Terminal & AI Governance",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/ai-meeting-assistant/",
+    "i": "fa-microphone",
+    "n": "AI Meeting & Notulen Pro",
+    "d": "Asisten Notulen Rapat Otomatis & Transkripsi Suara Real-time",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/NEXUS-PAGE-AGENT-VER.1.0/",
+    "i": "fa-network-wired",
+    "n": "Nexus Page Agent v1.0",
+    "d": "Simulator Agen AI Otonom & Multi-Agent Orchestration Engine",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/pabrik-ai/",
+    "i": "fa-microchip",
+    "n": "Pabrik AI Pro Suite",
+    "d": "20+ Multi-Agent AI Productivity, Workflow & Automation Suite",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/FREE-CLAUDE-CODE/",
+    "i": "fa-code",
+    "n": "Free Claude Code Studio",
+    "d": "Interactive Code Generator, Syntax Validator & Fullstack Assistant",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/AI-VIDEO-EDITOR/",
+    "i": "fa-film",
+    "n": "AI Video Editor Pro",
+    "d": "Pembuat & Editor Video Otomatis Berbasis Prompt Multimedia AI",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/EVENT-DRIVEN-ARCHITECTURE-FOR-AI-AGENTS/",
+    "i": "fa-sitemap",
+    "n": "EDA AI Agents Architecture",
+    "d": "Event-Driven Architecture & Reactive Workflow System untuk Agen AI",
+    "cat": "AI"
+  },
+  {
+    "u": "https://adikds.github.io/APEX-Foundations-v3.1-Geotechnical-AI-/",
+    "i": "fa-building",
+    "n": "Apex Foundations AI v3.1",
+    "d": "Analisis Daya Dukung & Penurunan Pondasi Dalam, Tiang Bor & Tiang Pancang",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/ANALISIS-PONDASI-TELAPAK-/",
+    "i": "fa-layer-group",
+    "n": "Analisis Pondasi Telapak Pro",
+    "d": "Perhitungan Kapasitas Dukung Ijin Tanah, Guling, Geser & Dimensi SNI",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/GeoStructPro-15-Essential-Geotechnical-Formulas/",
+    "i": "fa-mountain",
+    "n": "GeoStructPro 15 Formulas",
+    "d": "15 Formula Esensial Geoteknik, Tekanan Tanah Lateral & Penurunan",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/GEOSTRUCT-PRO-20-FORMULA-GEOTECHNICAL/",
+    "i": "fa-layer-group",
+    "n": "GeoStruct Pro 20 Formulas",
+    "d": "20 Rumus Komprehensif Analisis Geoteknik, Stabilitas Lereng & Seepage",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/UNIFIED-SOIL-CLASSIFICATION-SYSTEM/",
+    "i": "fa-cubes",
+    "n": "USCS Soil Classifier Pro",
+    "d": "Sistem Klasifikasi Tanah Terpadu ASTM D2487 & Kurva Distribusi Butir",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/AASHTO-SOIL-CLASSIFIER/",
+    "i": "fa-road",
+    "n": "AASHTO Soil Classifier Pro",
+    "d": "Klasifikasi Tanah Subgrade Jalan Raya Metode AASHTO M 145 & GI",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/ATLAS-GEOTEKNIK/",
+    "i": "fa-earth-americas",
+    "n": "Atlas Geoteknik Indonesia",
+    "d": "Pustaka Parameter Korelasi N-SPT, CPT Sondir & Batuan Nusantara",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adi-kudus.github.io/Seismic-Site-Report-SNI-PuSGeN-2024/",
+    "i": "fa-chart-area",
+    "n": "Seismic Site Report PuSGeN 2024",
+    "d": "Analisis Respon Spektra Gempa Desain SNI 1726 & PusGen Terintegrasi",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/WAY-APU-DAM/",
+    "i": "fa-building-shield",
+    "n": "Way Apu Dam Safety Analytics",
+    "d": "Analisis Stabilitas Lereng, Rembesan SEEP/W & Monitoring Bendungan Way Apu",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/INTEGRATED-DAM-ANALYTICS-ASSESSMENT-SYSTEM/",
+    "i": "fa-water",
+    "n": "Integrated Dam Analytics System",
+    "d": "Sistem Penilaian Keamanan Bendungan, Instrumentasi & Risiko Bencana",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/HYDRACANAL-PRO-GEOMETRIC-DESIGN/",
+    "i": "fa-water-ladder",
+    "n": "HydraCanal Pro Geometric Design",
+    "d": "Perencanaan Hidrolika Saluran Terbuka, Aliran Kritis & Bangunan Air",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/gudang-bulog/",
+    "i": "fa-warehouse",
+    "n": "Gudang Bulog Steel Structure FEM",
+    "d": "Pemodelan Elemen Hingga Portal Baja Rangka Gudang Bulog SNI 1729",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/konstruksi-ai/",
+    "i": "fa-building-columns",
+    "n": "Konstruksi AI Pro (KONAI v4.0)",
+    "d": "Manajemen Mutu Lapangan, K3 HSE, Pengawasan & Time Schedule Proyek",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/dss-sedimen-pro/",
+    "i": "fa-water",
+    "n": "DSS Sedimen Pesisir Demak",
+    "d": "Decision Support System Pengelolaan Sedimen Berkelanjutan S3 UNDIP",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adikds.github.io/STATISTICS_for_ENGINEERS-/",
+    "i": "fa-chart-pie",
+    "n": "Statistics for Engineers Pro",
+    "d": "Analisis Statistik Rekayasa, Uji Hipotesis, Regresi & Probabilitas",
+    "cat": "Geoteknik"
+  },
+  {
+    "u": "https://adi-kudus.github.io/inatews-pro/",
+    "i": "fa-house-tsunami",
+    "n": "InaTEWS Pro Tsunami Warning",
+    "d": "Peringatan Dini Tsunami Real-time & Visualisasi Jaringan Seismograf BMKG",
+    "cat": "Monitoring"
+  },
+  {
+    "u": "https://adikds.github.io/SISTEM-MONITORING-SEISMIK-PERINGATAN-TSUNAMI/",
+    "i": "fa-wave-square",
+    "n": "Sistem Monitoring Seismik",
+    "d": "Deteksi Gempa Bumi, Gelombang Primer/Sekunder & Zonasi Episentrum",
+    "cat": "Monitoring"
+  },
+  {
+    "u": "https://adikds.github.io/MONITORING-PREDIKSI-STATUS-EI-NI-O-LA-NI-A/",
+    "i": "fa-temperature-half",
+    "n": "Monitoring El Niño & La Niña",
+    "d": "Prediksi Dinamika Iklim Global, Indeks SOI, ONI & Anomali Suhu Muka Laut",
+    "cat": "Monitoring"
+  },
+  {
+    "u": "https://adikds.github.io/MONITORING-PREDIKSI-ANGIN-MUSON-INDONESIA/",
+    "i": "fa-wind",
+    "n": "Monitoring Prediksi Angin Muson",
+    "d": "Pola Sirkulasi Angin Muson Barat & Timur Serta Dampak Curah Hujan",
+    "cat": "Monitoring"
+  },
+  {
+    "u": "https://adikds.github.io/AERORADAR-PRO/",
+    "i": "fa-plane",
+    "n": "AeroRadar Pro Aviation Tracker",
+    "d": "Pelacak Penerbangan Udara Real-Time, ADS-B Radar & Telemetri Bandara",
+    "cat": "Monitoring"
+  },
+  {
+    "u": "https://adikds.github.io/DOKTER-AI/",
+    "i": "fa-user-doctor",
+    "n": "Dokter AI Expert Diagnostic",
+    "d": "Sistem Pakar Diagnosa Klinis, Rekomendasi Terapi & Panduan Medis",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/DARUSSYIFA-MEDIKA/",
+    "i": "fa-hospital",
+    "n": "Darussyifa Medika v5.0",
+    "d": "Sistem Manajemen Klinik Pratama/Utama, Rawat Jalan, Farmasi & Billing",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/DARUSSYIFA_MEDIKA/",
+    "i": "fa-file-medical",
+    "n": "Darussyifa Medika v2.0 (EMR)",
+    "d": "Rekam Medis Elektronik (RME) Standar SatuSehat & Riwayat Pasien",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/SMILE-SYIFA-AI/",
+    "i": "fa-face-smile",
+    "n": "Smile Syifa AI Dental Diagnostic",
+    "d": "Analisis Citra Radiografi Gigi, Karies, Periodontitis & Solusi Ortodonti",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/SKIN_SYIFA_AI/",
+    "i": "fa-magnifying-glass-chart",
+    "n": "Skin Syifa AI Dermatology",
+    "d": "Skrining Lesi Kulit, Dermatologi Klinis & Deteksi Anomali Melanoma",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/NEURO-PSYCH_AI/",
+    "i": "fa-brain",
+    "n": "Neuro-Psych AI Clinical",
+    "d": "Asesmen Neuropsikologi, Evaluasi Kognitif & Skrining Kesehatan Mental",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/-MEGA-ATLAS-FKG/",
+    "i": "fa-tooth",
+    "n": "Mega Atlas Kedokteran Gigi (FKG)",
+    "d": "Atlas Praktik Mandiri Mahasiswa Kedokteran Gigi Terlengkap 12 Modul",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/Mega-Atlas-Kedokteran-Neurologi-Bedah-Syaraf/",
+    "i": "fa-brain",
+    "n": "Mega Atlas Neurologi & Bedah Syaraf",
+    "d": "Panduan Visual 3D Anatomi Syaraf Pusat, Jalur Vaskular & Prosedur Operasi",
+    "cat": "Medis"
+  },
+  {
+    "u": "https://adikds.github.io/edu-market-pro/",
+    "i": "fa-graduation-cap",
+    "n": "EduMarket Pro Digital Hub",
+    "d": "Platform Kursus Online, E-Book Digital & Ekosistem Edukasi Interaktif",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://adikds.github.io/pos-system/",
+    "i": "fa-cash-register",
+    "n": "POS Terminal Pro Enterprise",
+    "d": "Sistem Kasir Point-of-Sale Berbasis Web, Laporan Shift & Cetak Struk",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://adikds.github.io/Aplikasi_Point_of_Sale_-POS-_atau_sistem_kasir/",
+    "i": "fa-store",
+    "n": "Aplikasi POS Retail & Grosir",
+    "d": "Sistem Kasir Barcode Scanner, Manajemen Diskon & Inventori Multi-Toko",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://adikds.github.io/business-suite/",
+    "i": "fa-chart-bar",
+    "n": "Business Suite Enterprise Pro",
+    "d": "Manajemen Bisnis Menyeluruh, Sales Pipeline, CRM & Analisis Keuangan",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://adikds.github.io/stock-manager/",
+    "i": "fa-boxes-stacked",
+    "n": "Stock & Warehouse Manager",
+    "d": "Pengendalian Persediaan Pergudangan, Reorder Point & FIFO Tracker",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://adikds.github.io/financial-planner/",
+    "i": "fa-chart-line",
+    "n": "Financial Planner (Roadmap 1M)",
+    "d": "Simulasi Portofolio Investasi, Tabungan Darurat & Kalkulator Finansial",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://adikds.github.io/KEUANGANKU/",
+    "i": "fa-wallet",
+    "n": "Keuanganku Personal Cashflow",
+    "d": "Manajemen Arus Kas Pribadi, Budgeting Bulanan & Visualisasi Pengeluaran",
+    "cat": "Bisnis"
+  },
+  {
+    "u": "https://www.f15library.com/",
+    "i": "fa-book-open-reader",
+    "n": "F15 Library Digital Resource",
+    "d": "Perpustakaan Koleksi Buku Ilmiah, E-Book Teknik Sipil & Riset Islam",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://adikds.github.io/iptv-terminal/",
+    "i": "fa-tv",
+    "n": "IPTV Terminal Cyber Stream",
+    "d": "Pemutar Saluran Televisi Live Nasional & Internasional Resolusi Tinggi",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://adikds.github.io/TV-streaming-live/",
+    "i": "fa-signal",
+    "n": "TV Streaming Live Indonesia",
+    "d": "Streaming Siaran TV Digital Indonesia & Siaran Religi Edukatif",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://adikds.github.io/SIMULASI-DAN-JADWAL-SERTA-SCOR-WORLD-CUP-2026/",
+    "i": "fa-futbol",
+    "n": "Simulasi & Skor World Cup 2026",
+    "d": "Jadwal Pertandingan, Bagan Fase Gugur & Prediksi Skor Piala Dunia 2026",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://newbieonline7.blogspot.com/",
+    "i": "fa-blog",
+    "n": "Blog Ir. Mohamad Hartadi",
+    "d": "Catatan Riset Teknik Sipil, Hidrologi, Geoteknik & Pengembangan Web AI",
+    "cat": "Religi"
+  },
+  {
+    "u": "https://adikds.github.io/Adi_Newbie/",
+    "i": "fa-user-astronaut",
+    "n": "Adi Newbie Official Portfolio",
+    "d": "Showcase Portofolio Resmi, Profil Inovator & Arsitek Sistem Web",
+    "cat": "AI"
+  }
+];
+
+// FUNGSI SHORTCUT MY APLIKASI MENAMPILKAN 50 APLIKASI
+function triggerMyAppsShortcut(){
+  setTab('chat');
+  const box = $('chat-box');
+  box.innerHTML += `<div class="msg user"><i class="fas fa-laptop-code"></i> Tampilkan 50 Daftar Aplikasi yang Pernah Saya Buat</div>`;
+  box.scrollTop = box.scrollHeight;
+
+  const typingId = 'typing-' + Date.now();
+  box.innerHTML += `<div class="msg bot font-mono-tech" id="${typingId}" style="color:var(--cyan);font-size:11px">
+    <i class="fas fa-circle-notch fa-spin"></i> Menyiapkan direktori 50 aplikasi karya Ir. Mohamad Hartadi...
+  </div>`;
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(()=>{
+    const elTyping = $(typingId);
+    if(elTyping) elTyping.remove();
+    renderMyAppsDirectory();
+  }, 350);
+}
+
+function renderMyAppsDirectory(filterText = '', selectedCategory = 'Semua'){
+  const box = $('chat-box');
+  const uid = 'appdir-' + Date.now();
+  
+  let html = `
+    <div class="msg bot" style="max-width:98%;width:100%">
+      <div class="myapps-container" id="${uid}">
+        <div class="myapps-header">
+          <div class="myapps-title">
+            <span><i class="fa-solid fa-laptop-code" style="color:var(--cyan)"></i> DIREKTORI 50 APLIKASI PORTOFOLIO</span>
+            <span style="font-size:10px;background:var(--gold-soft);color:var(--gold);padding:2px 8px;border-radius:99px;border:1px solid var(--gold)">50 Aplikasi</span>
+          </div>
+          <p style="font-size:10.5px;color:var(--mut);margin-top:3px">Koleksi inovasi rekayasa teknik sipil, sistem cerdas AI, aplikasi kesehatan &amp; media Islami oleh <b>Ir. Mohamad Hartadi</b>.</p>
+        </div>
+
+        <input type="text" class="myapps-search" placeholder="Cari di antara 50 aplikasi... (mis: quran, doa, geoteknik, jarvis, radar, pondasi)" oninput="filterChatAppList('${uid}', this.value)">
+
+        <div class="myapps-cat-bar">
+          <button class="myapps-cat-btn active" onclick="filterChatAppCat('${uid}', 'Semua', this)">Semua (50)</button>
+          <button class="myapps-cat-btn" onclick="filterChatAppCat('${uid}', 'Geoteknik', this)">Geoteknik &amp; Sipil (15)</button>
+          <button class="myapps-cat-btn" onclick="filterChatAppCat('${uid}', 'AI', this)">AI &amp; Agen (8)</button>
+          <button class="myapps-cat-btn" onclick="filterChatAppCat('${uid}', 'Monitoring', this)">Monitoring &amp; Bencana (5)</button>
+          <button class="myapps-cat-btn" onclick="filterChatAppCat('${uid}', 'Medis', this)">Medis &amp; Kesehatan (8)</button>
+          <button class="myapps-cat-btn" onclick="filterChatAppCat('${uid}', 'Bisnis', this)">Bisnis &amp; Finansial (7)</button>
+          <button class="myapps-cat-btn" onclick="filterChatAppCat('${uid}', 'Religi', this)">Religi &amp; Media (7)</button>
+        </div>
+
+        <div class="myapps-list" id="${uid}-list">
+          ${generateAppItemsHtml(APPS_PORTOFOLIO)}
+        </div>
+
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;font-size:10.5px">
+          <span style="color:var(--mut)"><i class="fa-solid fa-code-branch" style="color:var(--cyan)"></i> Total Terpasang: <b>50 Aplikasi Web</b></span>
+          <div style="display:flex;gap:6px">
+            <a href="https://github.com/AdiKds?tab=repositories" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;font-weight:600"><i class="fa-brands fa-github"></i> GitHub Repos</a>
+            <a href="https://newbieonline7.blogspot.com" target="_blank" rel="noopener noreferrer" style="color:var(--cyan);text-decoration:none;font-weight:600"><i class="fa-solid fa-blog"></i> Blog Resmi</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  box.innerHTML += html;
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance("Menampilkan 50 daftar aplikasi portofolio yang telah Anda kembangkan beserta tautan langsungnya.");
+    u.lang = 'id-ID';
+    u.rate = 0.98;
+    window.speechSynthesis.speak(u);
+  } catch(e){}
+}
+
+function generateAppItemsHtml(apps){
+  return apps.map((app, idx) => {
+    let badgeClass = 'badge-geotek';
+    if(app.cat === 'AI') badgeClass = 'badge-ai';
+    else if(app.cat === 'Medis') badgeClass = 'badge-medis';
+    else if(app.cat === 'Bisnis') badgeClass = 'badge-bisnis';
+    else if(app.cat === 'Religi') badgeClass = 'badge-religi';
+    else if(app.cat === 'Monitoring') badgeClass = 'badge-mon';
+
+    return `
+      <div class="myapp-card" data-name="${esc(app.n).toLowerCase()}" data-desc="${esc(app.d).toLowerCase()}" data-cat="${app.cat}">
+        <span class="myapp-num">#${idx + 1}</span>
+        <div class="myapp-ico"><i class="fa-solid ${app.i}"></i></div>
+        <div class="myapp-body">
+          <div class="myapp-name">
+            <span title="${esc(app.n)}">${esc(app.n)}</span>
+            <span class="myapp-badge ${badgeClass}">${app.cat}</span>
+          </div>
+          <div class="myapp-desc" title="${esc(app.d)}">${esc(app.d)}</div>
+        </div>
+        <a href="${app.u}" target="_blank" rel="noopener noreferrer" class="myapp-open-btn" title="Buka ${esc(app.n)} di Tab Baru">
+          Buka <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterChatAppList(containerId, query){
+  const container = $(containerId);
+  if(!container) return;
+  const cards = container.querySelectorAll('.myapp-card');
+  const q = (query || '').trim().toLowerCase();
+  
+  cards.forEach(card => {
+    const n = card.getAttribute('data-name') || '';
+    const d = card.getAttribute('data-desc') || '';
+    const match = !q || n.includes(q) || d.includes(q);
+    card.style.display = match ? 'flex' : 'none';
+  });
+}
+
+function filterChatAppCat(containerId, cat, btnEl){
+  const container = $(containerId);
+  if(!container) return;
+  const cards = container.querySelectorAll('.myapp-card');
+  const btns = container.querySelectorAll('.myapps-cat-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  if(btnEl) btnEl.classList.add('active');
+
+  cards.forEach(card => {
+    const c = card.getAttribute('data-cat') || '';
+    const match = (cat === 'Semua') || (c === cat);
+    card.style.display = match ? 'flex' : 'none';
+  });
+}
 
 const DATABASE_KONTEN = [
   {
@@ -2115,6 +2996,10 @@ const DATABASE_KONTEN = [
 ];
 const KB = [
   {
+    "k": ["my aplikasi", "daftar aplikasi", "aplikasi yang pernah saya buat", "50 aplikasi", "portofolio aplikasi", "aplikasi saya"],
+    "j": "Berikut adalah <b>Direktori 50 Aplikasi</b> yang pernah Anda kembangkan:<br><button onclick=\"renderMyAppsDirectory()\" class=\"btn\" style=\"margin-top:8px;padding:5px 12px;font-size:11px;background:linear-gradient(135deg,#eab308,#0891b2);color:#fff\"><i class=\"fas fa-laptop-code\"></i> Tampilkan 50 Daftar Aplikasi Portofolio</button>"
+  },
+  {
     "k": [
       "rukun",
       "syarat khutbah"
@@ -2608,6 +3493,25 @@ function sendMsg(){
   input.value = '';
   box.scrollTop = box.scrollHeight;
 
+  // Cek apakah user menanyakan my aplikasi atau daftar aplikasi
+  const lower = text.toLowerCase();
+  const isMyAppsQuery = ["my aplikasi", "my app", "aplikasi saya", "daftar aplikasi", "portofolio", "50 aplikasi", "katalog aplikasi", "aplikasi yang pernah saya buat", "daftar portofolio"].some(k => lower.includes(k));
+
+  if(isMyAppsQuery){
+    const typingId = 'typing-' + Date.now();
+    box.innerHTML += `<div class="msg bot font-mono-tech" id="${typingId}" style="color:var(--cyan);font-size:11px">
+      <i class="fas fa-circle-notch fa-spin"></i> Menyiapkan direktori 50 aplikasi karya Ir. Mohamad Hartadi...
+    </div>`;
+    box.scrollTop = box.scrollHeight;
+
+    setTimeout(()=>{
+      const elTyping = $(typingId);
+      if(elTyping) elTyping.remove();
+      renderMyAppsDirectory();
+    }, 350);
+    return;
+  }
+
   const typingId = 'typing-' + Date.now();
   box.innerHTML += `<div class="msg bot font-mono-tech" id="${typingId}" style="color:var(--cyan);font-size:11px">
     <i class="fas fa-circle-notch fa-spin"></i> Memproses fatwa &amp; referensi islami...
@@ -2790,7 +3694,7 @@ function saveScSettings(){
 
 // Orbiting Apps / Badges in Screensaver
 const ORBIT_BADGES = [
-  {u:"https://adikds.github.io/Al-Quran-Karim/", i:"fa-book-quran", n:"Al-Qur'an Karim Pro"},
+  {u:"https://adi-kudus.github.io/Al-Quran-Karim/", i:"fa-book-quran", n:"Al-Qur'an Karim Pro"},
   {u:"https://adikds.github.io/-Doa-Digital-Pro/", i:"fa-hands-praying", n:"Kumpulan Doa Digital"},
   {u:"https://adikds.github.io/jarvis-ai/", i:"fa-robot", n:"JARVIS AI"},
   {u:"https://adikds.github.io/ATLAS-GEOTEKNIK/", i:"fa-earth-americas", n:"Atlas Geoteknik"},
